@@ -20,4 +20,4 @@ TRACE is presently available for MATLAB (as TRACEv1) and Python (as TRACE-Python
 
 	Download and unzip a release from the [TRACEv1 repository](https://github.com/BRCScienceProducts/TRACEv1) to your computer and extract to a location on your MATLAB path (or [add the location to your path](https://www.mathworks.com/help/matlab/ref/addpath.html)). Ensure the `TRACEv1.m` function and the `private` directory are in the same folder. Several toolboxes may need to be installed if they are not already. 
 	
-	Finished installing? [Learn how to use TRACEv1 here.](https://d-sandborn.github.io/TRACE/trace_howto/)
+	Finished installing? [Learn how to use TRACEv1 here.](https://d-sandborn.github.io/TRACE/trace_howto_matlab/)
