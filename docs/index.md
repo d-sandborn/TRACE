@@ -17,14 +17,7 @@
 
 ## Setup
 
-Ready to use TRACE? Pick your coding environment:
-
-<div class="grid cards" markdown>
-
-- :fontawesome-brands-python: [__TRACE-Python__](https://d-sandborn.github.io/TRACE/setup/)
-- :fontawesome-brands-matlab: [__TRACEv1__](https://d-sandborn.github.io/TRACE/setup/)
-
-</div>
+Ready to use TRACE? [Installation instructions here!](https://d-sandborn.github.io/TRACE/setup/)
 
 ## Citation
 

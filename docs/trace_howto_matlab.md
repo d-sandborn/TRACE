@@ -4,11 +4,13 @@ This function needs the CSIRO seawater package to run. Scale differences from TE
 
 !!! inputs "`TRACEv1` Arguments"
 
-	p: Integer number of desired estimate types. For TRACE this is always 1. 
-	n: Integer number of desired estimate locations 
-	e: Integer number of equations used at each location (up to 4) 
-	y: Integer number of parameter measurement types provided by the user. 
-	n*e: Total number of estimates returned as an n by e array
+	Array dimensions:
+
+	- p: Integer number of desired estimate types. For TRACE this is always 1. 
+	- n: Integer number of desired estimate locations 
+	- e: Integer number of equations used at each location (up to 4) 
+	- y: Integer number of parameter measurement types provided by the user. 
+	- n*e: Total number of estimates returned as an n by e array
 
     ### Coordinates
 
@@ -53,7 +55,7 @@ This function needs the CSIRO seawater package to run. Scale differences from TE
 
     * `MeasUncerts` (Optional n by y array or 1 by y vector, default: [0.003 S, 0.003 degrees C (T or theta), 1AOU]: Array of measurement uncertainties (see 'PredictorMeasurements' for units). Uncertainties should be presented in order indicated by PredictorTypes. Providing these estimates will improve estimate uncertainties in 'UncertaintyEstimates'. Measurement uncertainties are a small part of TRACE estimate uncertainties for WOCE-quality measurements. However, estimate uncertainty scales with measurement uncertainty, so it is recommended that measurement uncertainties be specified for sensor measurements. If this optional input argument is not provided, the default WOCE-quality uncertainty is assumed. If a 1 by y array is provided then the uncertainty estimates are assumed to apply uniformly to all input parameter measurements.
 
-!!! outputs "`TRACEv1` output"
+!!! outputs "`TRACEv1` Output"
 
 	`OutputEstimates`: A n by e array of TRACE estimates specific to the coordinates and parameter measurements provided as inputs. Units are micromoles per kg.
 	

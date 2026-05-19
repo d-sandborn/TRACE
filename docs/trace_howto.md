@@ -10,7 +10,7 @@ Call TRACE within a Python script or iPython console by running
 from tracepy import trace
 ```
 
-which will make available the top-level function for anthropogenic carbon estimation. For details on its input and output parameters, see the API description below, or call
+which will make available the top-level function for anthropogenic carbon estimation. For details on its input and output parameters, see the [API description below](https://d-sandborn.github.io/TRACE/trace_howto/#arguments), or call
 
 ```python
 ?trace
@@ -76,7 +76,7 @@ This result above agrees exactly with TRACEv1, which gives C<sub>anth</sub> = ``
 
 
 
-# Arguments
+## Arguments
 
 Each argument to `trace` can either be a single scalar value (float or int), or an array given as a list or Numpy array containing a series of values. `trace` remains regrettably sensitive to argument formatting, so please check your input array dimensions and reach out with any problems (or solutions).
 
@@ -84,7 +84,7 @@ Each argument to `trace` can either be a single scalar value (float or int), or 
 
     Necessary input arguments include `output_coordinates`, `dates`, `predictor_measurements`, and `predictor_types`. All other parameters are optional, with their default values listed below. 
 
-    #### Coordinates
+    ### Coordinates
 
     Each of n rows of output coordinates and dates indicates a single location in space/time at which an estimation is made. `trace` cannot presently handle multidimensional (e.g. latitude/longitude/depth) arrays of coordinates: they must be [flattened](https://numpy.org/doc/stable/reference/generated/numpy.ravel.html) to one-dimensional vectors, then concatenated into the columns as described below. 
 
@@ -92,7 +92,7 @@ Each argument to `trace` can either be a single scalar value (float or int), or 
 
     * `dates`: n by 1 array of years c.e. for which estimates are desired. 
 
-    #### Predictors
+    ### Predictors
 
     Unlike for ESPER or PyESPER, only salinity and temperature are accepted predictors for age and other preformed properties. 
 
@@ -102,7 +102,7 @@ Each argument to `trace` can either be a single scalar value (float or int), or 
         * `1`. Salinity
         * `2`. Temperature
 
-    #### Atmospheric CO2 
+    ### Atmospheric CO2 
 
     * `atm_co2_trajectory` : Integer between 1 and 9 specifying the atmospheric xCO2 trajectory:
         * `1`. Historical/Linear **(default)**
@@ -121,7 +121,7 @@ Each argument to `trace` can either be a single scalar value (float or int), or 
 
     * `canth_diseq` : Air-sea carbon dioxide equilibrium assumed for calculation of pCO2 as a function of atmospheric CO2. This should only be used if user-provided atmospheric trajectories not otherwise modified for anthropogenic carbon disequilibrium are being supplied. The default is `1`.
 
-    #### Output Options
+    ### Output Options
 
     `trace` returns a CF-compliant dataset, which may be directly saved to a file for ease of data archival and scientific replicability. 
 
@@ -129,7 +129,7 @@ Each argument to `trace` can either be a single scalar value (float or int), or 
 
     * `verbose_tf` : Flag to control output verbosity. Setting this to False will make `trace` stop printing updates to the command line.  Warnings and errors, if any, will be given regardless. The default is `True`.
 
-    #### PyCO2SYS Options
+    ### PyCO2SYS Options
 
     *The descriptions here derive in part from the [PyCO2SYS docs](https://pyco2sys.readthedocs.io/en/latest/co2sys_nd/)* which the interested reader should consult for further explanation. 
 
@@ -137,14 +137,14 @@ Each argument to `trace` can either be a single scalar value (float or int), or 
         * `1`. Total, i.e. $\mathrm{pH} = -\log_{10} ([\mathrm{H}^+] + [\mathrm{HSO}_4^-])$ **(default)**
         * `2`. Seawater, i.e. $\mathrm{pH} = -\log_{10} ([\mathrm{H}^+] + [\mathrm{HSO}_4^-] + [\mathrm{HF}])$
         * `3`. Free, i.e. $\mathrm{pH} = -\log_{10} [\mathrm{H}^+]$
-        * `4`. NBS, i.e. relative to [NBS/NIST](https://www.nist.gov/history/nist-100-foundations-progress/nbs-nist) reference standards
+        * `4`. NBS, i.e. relative to NBS/NIST reference standards
 
     * `opt_k_carbonic`: PyCO2SYS option for carbonic acid dissociation constants:
         * `1`: RRV93 (0 < *T* < 45 °C, 5 < *S* < 45, Total scale, artificial seawater)
         * `2`: GP89 (−1 < *T* < 40 °C, 10 < *S* < 50, Seawater scale, artificial seawater)
         * `3`: H73a and H73b refit by DM87 (2 < *T* < 35 °C, 20 < *S* < 40, Seawater scale, artificial seawater)
         * `4`: MCHP73 refit by DM87 (2 < *T* < 35 °C, 20 < *S* < 40, Seawater scale, real seawater)
-        * `5`: H73a, H73b and [MCHP73](../refs/#m) refit by [DM87](../refs/#d) (2 < *T* < 35 °C, 20 < *S* < 40, Seawater scale, artificial seawater)
+        * `5`: H73a, H73b and MCHP73 refit by DM87 (2 < *T* < 35 °C, 20 < *S* < 40, Seawater scale, artificial seawater)
         * `6`: MCHP73 aka "GEOSECS" (2 < *T* < 35 °C, 19 < *S* < 43, NBS scale, real seawater)
         * `7`: MCHP73 without certain species aka "Peng" (2 < *T* < 35 °C, 19 < *S* < 43, NBS scale, real seawater)
         * `8`: M79 (0 < *T* < 50 °C, *S* = 0, freshwater only)
@@ -173,7 +173,7 @@ Each argument to `trace` can either be a single scalar value (float or int), or 
         * `2`: LKB10
         * `3`: KSK18
 
-    #### Preformed Properties
+    ### Preformed Properties
 
     These inputs are particularly useful for looped estimations, e.g. for successive re-estimation over time. As preformed properties are time-invariant, feeding `trace` the previously-estimated preformed properties for the same locations saves the vast majority of the run time. 
     
@@ -185,7 +185,7 @@ Each argument to `trace` can either be a single scalar value (float or int), or 
 
     * `scale_factors`: n by 1 array of scale factors for the inverse gaussian parameterization. When given neural network estimation will be skipped. The default is `None`.
 
-    #### Miscellaneous
+    ### Miscellaneous
 
     * `eos`: Choice of seawater equation of state to use for temperature, density, and depth conversions. Available choices are `seawater` (EOS-80) and `gsw` (TEOS-10). `seawater` will be deprecated, but is kept for compatibility with TRACEv1. The default is `seawater`.
 
@@ -197,7 +197,7 @@ Each argument to `trace` can either be a single scalar value (float or int), or 
 
     * `error_codes` : List of error codes to be parsed as np.nan in input parameter arrays. The default is `[-999, -9, -1e20]`.
 
-# Estimation without temperature
+## Estimation without temperature
 
 Calling ```trace``` without a temperature input will cause it to estimate temperature from salinity and coordinates via a neural network. This is **not** recommended, but will yield results (with a warning) as in TRACEv1:
 
@@ -255,7 +255,7 @@ array([56.059132, 66.45668126])
 
 The same result was obtained in TRACEv1: C<sub>anth</sub> = ```[56.0591 66.4567]``` for the same inputs.
 
-# Column Integration
+## Column Integration
 
 A column integration function is available:
 
