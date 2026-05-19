@@ -3,21 +3,32 @@
 [![Python application](https://github.com/d-sandborn/pyTRACE/actions/workflows/python-app.yml/badge.svg)](https://github.com/d-sandborn/pyTRACE/actions/workflows/python-app.yml) 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17822675.svg)](https://doi.org/10.5281/zenodo.17822675)
 
-TRACE estimates ocean anthropogenic carbon concentration from user-supplied inputs of coordinates (lon, lat, depth), salinity, temperature, and year. Information is also needed about the historical and/or future atmospheric CO<sub>2</sub> trajectory.  This information can be provided or default values can be assumed.  This tool is a multi-platform implementation of the inverse gaussian transit time distribution method aimed at increasing the accessibility of ocean anthropogenic carbon content estimation.
+**TRACE estimates ocean anthropogenic carbon (C<sub>anth</sub>)** from user-supplied coordinates, salinity, temperature, and year. It implements the inverse gaussian transit time distribution method to increase accessibility, repeatability, and speed of C<sub>anth</sub> estimation.
 
-After [TRACEv1](https://github.com/BRCScienceProducts/TRACEv1) and being developed in parallel with [ESPER](https://github.com/BRCScienceProducts/ESPER) and [PyESPER](https://github.com/LarissaMDias/PyESPER). This work is the subject of a [manuscript in review](https://egusphere.copernicus.org/preprints/2026/egusphere-2025-5793/), and should be considered preliminary. This repository will be updated with the final published paper, and a new release will be produced pending publication. 
+**TRACE is available for [Python](https://github.com/d-sandborn/TRACE) and [MATLAB](https://github.com/BRCScienceProducts/TRACEv1),** and is one of a family of ocean state estimation routines, developed in parallel with [ESPER](https://github.com/BRCScienceProducts/ESPER) and [PyESPER](https://github.com/LarissaMDias/PyESPER). Users seeking estimates of present TA, DIC, pH, phosphate, nitrate, silicate, or oxygen should use (Py)ESPER. 
+
+**TRACE is designed to be easy to [install](https://d-sandborn.github.io/TRACE/#setup) and [use](https://d-sandborn.github.io/TRACE/trace_howto/)** in your scientific workflow, but that doesn't mean it is easy to install or use yet. We welcome feedback and [contributions](https://d-sandborn.github.io/TRACE/contributing/).
+
+**TRACE is an evolving product** which will incorporate new hydrographic observations and parameterizations as they become available to improve its estimates. Check out the [version history](https://d-sandborn.github.io/TRACE/versions/) for more information. 
+
+*Below: Column inventory of C<sub>anth</sub> mapped for indicated years produced via TRACE analysis of the GLODAPv2.2016b gridded product assuming historical atmospheric CO<sub>2</sub> trajectory.*
+
+![](col_inventory_multiplot.png)
 
 ## Setup
 
-Clone TRACE to your machine or download and unzip a [release](https://github.com/d-sandborn/pyTRACE/releases).  Ensure pip and python are installed in a virtual environment (we suggest [this method](https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html)). TRACE can then be installed (as an editable install) by navigating to the unzipped directory of TRACE and running the following command in a terminal emulator
-```bash
-python -m pip install -e .
-```
-TRACE will be made available via pip once its dependencies are all available there. TRACE is not yet available via conda, but this is a target for future development if interest warrants it. PyCO2SYS >= v2 is required for speed and stability purposes, and is installed by default using the command above. More information on that package can be found [here](https://mvdh.xyz/PyCO2SYS/).
+Ready to use TRACE? Pick your coding environment:
+
+<div class="grid cards" markdown>
+
+- :fontawesome-brands-python: [__TRACE-Python__](https://d-sandborn.github.io/TRACE/setup/)
+- :fontawesome-brands-matlab: [__TRACEv1__](https://d-sandborn.github.io/TRACE/setup/)
+
+</div>
 
 ## Citation
 
-A paper describing TRACEv1 is freely available:
+If you use TRACE in your work, please consider citing ours. A paper describing TRACEv1 is freely available:
 
 !!! note "TRACEv1 manuscript" 
 
@@ -43,4 +54,4 @@ A publication describing the Python implementation of TRACE is presently in revi
 
 ## Disclaimer
 
-The material embodied in this software is provided to you "as-is" and without warranty of any kind, express, implied or otherwise, including without limitation, any warranty of fitness for a particular purpose.In no event shall the authors be liable to you or anyone else for any direct, special, incidental, indirect or consequential damages of any kind, or any damages whatsoever, including without limitation, loss of profit, loss of use, savings or revenue, or the claims of third parties, whether or not the authors have been advised of the possibility of such loss, however caused and on any theory of liability, arising out of or in connection with the possession, use or performance of this software.
+The material embodied in this software is provided to you "as-is" and without warranty of any kind, express, implied or otherwise, including without limitation, any warranty of fitness for a particular purpose. In no event shall the authors be liable to you or anyone else for any direct, special, incidental, indirect or consequential damages of any kind, or any damages whatsoever, including without limitation, loss of profit, loss of use, savings or revenue, or the claims of third parties, whether or not the authors have been advised of the possibility of such loss, however caused and on any theory of liability, arising out of or in connection with the possession, use or performance of this software.

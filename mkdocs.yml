@@ -2,7 +2,7 @@ site_name: TRACE
 site_author: Daniel E. Sandborn
 site_description: Tracer-based Rapid Anthropogenic Carbon Estimation
 site_url: https://d-sandborn.io/TRACE
-copyright: Copyright &copy; 2025 D.E. Sandborn (MIT License)
+copyright: Copyright &copy; 2026 D.E. Sandborn (MIT License)
 
 # Github repo info
 repo_name: d-sandborn/TRACE
@@ -11,8 +11,12 @@ repo_url: https://github.com/d-sandborn/TRACE
 # Navigation
 nav:
   - Overview: index.md
-  - How to use TRACE: trace_howto.md
+  - How to use TRACE: 
+    - Python: trace_howto.md
+    - MATLAB: trace_howto_matlab.md
+  - Installation: setup.md
   - Version history: versions.md
+  - Contributing: contributing.md
 
 # Appearance
 theme:
@@ -46,6 +50,8 @@ theme:
 markdown_extensions:
   - admonition
   - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.details
   - codehilite:
       guess_lang: false
