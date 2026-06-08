@@ -3,11 +3,11 @@
 [![Python application](https://github.com/d-sandborn/pyTRACE/actions/workflows/python-app.yml/badge.svg)](https://github.com/d-sandborn/pyTRACE/actions/workflows/python-app.yml) 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17822675.svg)](https://doi.org/10.5281/zenodo.17822675)
 
-**TRACE estimates ocean anthropogenic carbon (C<sub>anth</sub>)** from user-supplied coordinates, salinity, temperature, and year. It implements the inverse gaussian transit time distribution method to increase accessibility, repeatability, and speed of C<sub>anth</sub> estimation.
+**TRACE estimates ocean anthropogenic carbon (C<sub>anth</sub>)** from user-supplied coordinates, salinity, temperature, and year. It implements the inverse gaussian transit time distribution (IG-TTD) method to increase accessibility, repeatability, and speed of C<sub>anth</sub> estimation.
 
-**TRACE is available for [Python](https://github.com/d-sandborn/TRACE) and [MATLAB](https://github.com/BRCScienceProducts/TRACEv1),** and is one of a family of ocean state estimation routines, developed in parallel with [ESPER](https://github.com/BRCScienceProducts/ESPER) and [PyESPER](https://github.com/LarissaMDias/PyESPER). Users seeking estimates of present TA, DIC, pH, phosphate, nitrate, silicate, or oxygen should use (Py)ESPER. 
+**TRACE is available for [Python](https://github.com/d-sandborn/TRACE) and [MATLAB](https://github.com/BRCScienceProducts/TRACEv1),** and is one of a family of ocean state estimation routines, developed in parallel with [ESPER](https://github.com/BRCScienceProducts/ESPER) and [PyESPER](https://github.com/LarissaMDias/PyESPER). Users seeking estimates of present-day TA, DIC, pH, phosphate, nitrate, silicate, or oxygen should use (Py)ESPER. 
 
-**TRACE is designed to be easy to [install](https://d-sandborn.github.io/TRACE/#setup) and [use](https://d-sandborn.github.io/TRACE/trace_howto/)** in your scientific workflow, but that doesn't mean it is easy to install or use yet. We welcome feedback and [contributions](https://d-sandborn.github.io/TRACE/contributing/).
+**TRACE is designed to be easy to [install](https://d-sandborn.github.io/TRACE/#setup) and [use](https://d-sandborn.github.io/TRACE/trace_howto/)** in your scientific workflow, but that doesn't mean actually is (yet). We welcome feedback and [contributions](https://d-sandborn.github.io/TRACE/contributing/)!
 
 **TRACE is an evolving product** which will incorporate new hydrographic observations and parameterizations as they become available to improve its estimates. Check out the [version history](https://d-sandborn.github.io/TRACE/versions/) for more information. 
 
@@ -21,7 +21,21 @@ Ready to use TRACE? [Installation instructions here!](https://d-sandborn.github.
 
 ## Citation
 
-If you use TRACE in your work, please consider citing ours. A paper describing TRACEv1 is freely available:
+If you use TRACE in your work, please consider citing ours. 
+
+A publication describing the Python implementation of TRACE is presently in review:
+
+!!! note "TRACE-Python manuscript" 
+
+    Sandborn, D.E., Carter, B. R., Warner, M. J., & Dias, L. M. TRACE-Python: Tracer-based Rapid Anthropogenic Carbon Estimation Implemented in Python (version 1.0). In review.
+
+To cite the Python implementation of TRACE:
+
+!!! note "TRACE-Python software" 
+
+    Sandborn, D. E., Barrett, R., & Carter, B. R. (2025). d-sandborn/TRACE: Tracer-based Rapid Anthropogenic Carbon Estimation (TRACE) (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.17822675
+
+A paper describing TRACEv1 is freely available:
 
 !!! note "TRACEv1 manuscript" 
 
@@ -32,18 +46,6 @@ To cite the original TRACEv1 software:
 !!! note "TRACEv1 software" 
 
     Carter, B. R. (2025). BRCScienceProducts/TRACEv1: TRACEv1_publication. Zenodo. https://doi.org/10.5281/zenodo.15692788
-
-To cite the Python implementation of TRACE:
-
-!!! note "TRACE-Python software" 
-
-    Sandborn, D. E., Barrett, R., & Carter, B. R. (2025). d-sandborn/TRACE: Tracer-based Rapid Anthropogenic Carbon Estimation (TRACE) (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.17822675
-
-A publication describing the Python implementation of TRACE is presently in review:
-
-!!! note "TRACE-Python manuscript" 
-
-    Sandborn, D.E., Carter, B. R., Warner, M. J., & Dias, L. M. TRACE-Python: Tracer-based Rapid Anthropogenic Carbon Estimation Implemented in Python (version 1.0). In review.
 
 ## Disclaimer
 
