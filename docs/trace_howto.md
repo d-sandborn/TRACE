@@ -104,7 +104,7 @@ Each argument to `trace` can either be a single scalar value (float or int), or 
 
     ### Atmospheric CO2 
 
-    * `atm_co2_trajectory` : Integer between 1 and 9 specifying the atmospheric xCO2 trajectory:
+    * `atm_co2_trajectory` : Integer between 1 and 9 specifying the atmospheric xCO2 trajectory. This history has been modified to reflect the values that would be expected in the surface ocean given the slow response of the surface ocean to a rapidly changing atmospheric value. Custom columns can be added to the data/CO2TrajectoreisAdjusted.txt file and referenced here.
         * `1`. Historical/Linear **(default)**
         * `2`. SSP1_1.9
         * `3`. SSP1_2.6
@@ -114,9 +114,7 @@ Each argument to `trace` can either be a single scalar value (float or int), or 
         * `7`. SSP4_3.4
         * `8`. SSP4_6.0
         * `9`. SSP5_3.4_over
-    
-        Custom columns can be added to the data/CO2TrajectoreisAdjusted.txt file and referenced here.
-    
+
     * `preindustrial_xco2` : Optional preindustrial reference xCO2 value. The default is `280`.
 
     * `canth_diseq` : Air-sea carbon dioxide equilibrium assumed for calculation of pCO2 as a function of atmospheric CO2. This should only be used if user-provided atmospheric trajectories not otherwise modified for anthropogenic carbon disequilibrium are being supplied. The default is `1`.
