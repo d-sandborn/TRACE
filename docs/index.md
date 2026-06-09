@@ -7,7 +7,7 @@
 
 **TRACE is available for [Python](https://github.com/d-sandborn/TRACE) and [MATLAB](https://github.com/BRCScienceProducts/TRACEv1),** and is one of a family of ocean state estimation routines, developed in parallel with [ESPER](https://github.com/BRCScienceProducts/ESPER) and [PyESPER](https://github.com/LarissaMDias/PyESPER). Users seeking estimates of present-day TA, DIC, pH, phosphate, nitrate, silicate, or oxygen should use (Py)ESPER. 
 
-**TRACE is designed to be easy to [install](https://d-sandborn.github.io/TRACE/#setup) and [use](https://d-sandborn.github.io/TRACE/trace_howto/)** in your scientific workflow, but that doesn't mean actually is (yet). We welcome feedback and [contributions](https://d-sandborn.github.io/TRACE/contributing/)!
+**TRACE is designed to be easy to [install](https://d-sandborn.github.io/TRACE/#setup) and [use](https://d-sandborn.github.io/TRACE/trace_howto/)** in your scientific workflow, but that doesn't mean it actually is easy (yet). We welcome feedback and [contributions](https://d-sandborn.github.io/TRACE/contributing/)!
 
 **TRACE is an evolving product** which will incorporate new hydrographic observations and parameterizations as they become available to improve its estimates. Check out the [version history](https://d-sandborn.github.io/TRACE/versions/) for more information. 
 
