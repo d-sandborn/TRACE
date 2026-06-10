@@ -11,10 +11,18 @@ repo_url: https://github.com/d-sandborn/TRACE
 # Navigation
 nav:
   - Overview: index.md
+  - Installation: setup.md
   - How to use TRACE: 
     - Python: trace_howto.md
     - MATLAB: trace_howto_matlab.md
-  - Installation: setup.md
+  - Examples: 
+    - Python: 
+      - Cast and profile estimates: trace_demo_profile_python.md
+      - Transect estimates: trace_demo_transect_python.md
+      - Time series: trace_demo_timeseries_python.md
+      - Column inventories: trace_demo_colint_python.md
+      - Estimation without temperature: trace_demo_notemp_python.md
+    - MATLAB: trace_demos_matlab.md
   - Version history: versions.md
   - Contributing: contributing.md
 
