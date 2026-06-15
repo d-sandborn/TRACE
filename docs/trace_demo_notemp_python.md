@@ -13,7 +13,7 @@ output = trace(
 
 UserWarning: Temperature is being estimated from salinity and coordinate information.
 
-output
+>>> output
 
 <xarray.Dataset> Size: 448B
 Dimensions:           (loc: 2)
@@ -48,7 +48,7 @@ Attributes:
     co2sys_parameters:  opt_pH_scale: 1, opt_k_carbonic: 10, opt_k_HSO4: 1, o...
     trace_parameters:   per_kg_sw_tf: True, canth_diseq: 1.0, eos: seawater, ...
 
-output.canth.data
+>>> output.canth.data
 
 array([56.059132, 66.45668126])
 

@@ -17,7 +17,7 @@
 
 ## Setup
 
-Ready to use TRACE? [Installation instructions here!](https://d-sandborn.github.io/TRACE/setup/)
+**Ready to use TRACE? [Installation instructions here!](https://d-sandborn.github.io/TRACE/setup/)**
 
 ## Citation
 

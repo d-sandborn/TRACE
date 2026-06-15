@@ -12,13 +12,6 @@ import numpy as np
 import xarray as xr
 from tracepy import trace
 from seawater import dpth # deprecated by TEOS-10, should use GSW
-import matplotlib.pyplot as plt
-import cmocean.cm as cm
-from scipy.interpolate import griddata
-
-# optional, needs LaTeX on your machine
-import scienceplots
-plt.style.use("science")
 ```
 
 Import datasets containing A16 botle data, then rearrange into a clean Pandas dataframe. We're selecting for QC flag 2, indicating "good" data. 
@@ -94,6 +87,6 @@ output = trace(
 )
 ```
 
-These estimates can be plotted with your section plotting tool of choice, resulting something which looks like:
+These estimates can be plotted with your section plotting tool of choice, resulting in something which looks like:
 
 ![](a16_canth_demo.png)

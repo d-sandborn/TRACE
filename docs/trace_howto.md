@@ -31,7 +31,7 @@ output = trace(
 which returns an [xarray dataset](https://docs.xarray.dev/en/latest/generated/xarray.Dataset.html) containing C<sub>anth</sub> at the specified dates and times, its uncertainties, and associated metadata. Attributes of the [CF-compliant](https://cfconventions.org/) dataset describe the variables and their units.
 
 ```python
-output
+>>> output
 
 <xarray.Dataset> Size: 448B
 Dimensions:           (loc: 2)
@@ -66,7 +66,7 @@ Attributes:
     co2sys_parameters:  opt_pH_scale: 1, opt_k_carbonic: 10, opt_k_HSO4: 1, o...
     trace_parameters:   per_kg_sw_tf: True, canth_diseq: 1.0, eos: seawater, ...
 
-output.canth.data
+>>> output.canth.data
 
 array([47.78685407, 79.87492991])
 
