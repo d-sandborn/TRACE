@@ -87,6 +87,6 @@ output = trace(
 )
 ```
 
-These estimates can be plotted with your section plotting tool of choice, resulting in something which looks like:
+These estimates can be plotted with your section plotting tool of choice, resulting figures resembling this example (derived from the TRACE [demos](https://github.com/d-sandborn/TRACE/tree/main/demos) scripts):
 
 ![](a16_canth_demo.png)
