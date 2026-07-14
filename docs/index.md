@@ -23,11 +23,11 @@
 
 If you use TRACE in your work, please consider citing ours. 
 
-A publication describing the Python implementation of TRACE is presently in review:
+A publication describing the Python implementation of TRACE is freely available:
 
 !!! note "TRACE-Python manuscript" 
 
-    Sandborn, D.E., Carter, B. R., Warner, M. J., & Dias, L. M. TRACE-Python: Tracer-based Rapid Anthropogenic Carbon Estimation Implemented in Python (version 1.0). In review.
+    Sandborn, D. E., Carter, B. R., Warner, M. J., & Dias, L. M. (2026). TRACE-Python: Tracer-based rapid anthropogenic carbon estimation implemented in Python (version 1.0). Geoscientific Model Development, 19(13), 5961–5978. https://doi.org/10.5194/gmd-19-5961-2026
 
 To cite the Python implementation of TRACE:
 

@@ -29,8 +29,10 @@ preferred-citation:
       given-names: "L. M."
       orcid: "https://orcid.org/0000-0001-7490-9864"
   title: "TRACE-Python: Tracer-based Rapid Anthropogenic Carbon Estimation"
-  url: "https://egusphere.copernicus.org/preprints/2026/egusphere-2025-5793/"
-  doi: "10.5194/egusphere-2025-5793"
-  pages: 1--30
+  url: "https://gmd.copernicus.org/articles/19/5961/2026/"
+  doi: "10.5194/gmd-19-5961-2026"
+  pages: 5961-5978
   year: 2026
-  publisher: "EGUsphere Preprint"
+  publisher: "Geoscientific Model Development"
+  volume = 19
+  number = 13
