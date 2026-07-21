@@ -73,12 +73,12 @@ def trace(
     CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
     CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
-                             Python v1.0.0
+                             Python v1.1.0
 
     Sandborn D. E., Carter, B. R., Barrett, R. 2026.
     https://doi.org/10.5194/gmd-19-5961-2026
     MATLAB - github.com/BRCScienceProducts/TRACEv1
-    Python - github.com/d-sandborn/pyTRACE
+    Python - github.com/d-sandborn/TRACE
 
     Generates etimates of ocean anthropogenic carbon content from
     user-supplied inputs of coordinates (lat, lon, depth), salinity,
@@ -751,15 +751,15 @@ def trace(
         attrs=dict(
             Conventions="CF-1.10",
             description="Results of Tracer-based Rapid Anthropogenic Carbon Estimation (TRACE)",
-            history="TRACE version 1.0.0, "
+            history="TRACE version 1.1.0, "
             + str(datetime.datetime.now())
             + " Python "
             + sys.version
             + " "
             + platform.platform(),
             date_created=str(datetime.datetime.now()),
-            references="doi.org/10.5194/essd-2024-560",
-            co2sys_parameters=f"opt_pH_scale: {opt_pH_scale}, opt_k_carbonic: {opt_k_carbonic}, opt_k_HSO4: {opt_k_HSO4}, opt_total_borate: {opt_total_borate}",
+            references="doi.org/10.5194/gmd-19-5961-2026",
+            co2sys_parameters=out.opts,#f"opt_pH_scale: {opt_pH_scale}, opt_k_carbonic: {opt_k_carbonic}, opt_k_HSO4: {opt_k_HSO4}, opt_total_borate: {opt_total_borate}",
             trace_parameters=f"per_kg_sw_tf: {per_kg_sw_tf}, canth_diseq: {canth_diseq}, eos: {eos}, delta_over_gamma: {delta_over_gamma}",
         ),
     )
