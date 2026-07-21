@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+message: "If you use TRACE in your work, please consider citing ours."
+authors:
+- family-names: "Sandborn"
+  given-names: "D. E."
+  orcid: "https://https://orcid.org/0000-0001-9653-2287"
+- family-names: "Barrett"
+  given-names: "R."
+  orcid: "https://orcid.org/0009-0000-2792-4973"
+- family-names: "Carter"
+  given-names: "B. R."
+  orcid: "https://orcid.org/0000-0003-2445-0711"
+title: "TRACE: Tracer-based Rapid Anthropogenic Carbon Estimation"
+version: 1.0.0
+doi: "10.5281/zenodo.17822675"
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Sandborn"
+      given-names: "D. E."
+      orcid: "https://https://orcid.org/0000-0001-9653-2287"
+    - family-names: "Carter"
+      given-names: "B. R."
+      orcid: "https://orcid.org/0000-0003-2445-0711"
+    - family-names: "Warner"
+      given-names: "M. J."
+      orcid: "https://orcid.org/0000-0001-7678-441X"
+    - family-names: "Dias"
+      given-names: "L. M."
+      orcid: "https://orcid.org/0000-0001-7490-9864"
+  title: "TRACE-Python: Tracer-based Rapid Anthropogenic Carbon Estimation"
+  url: "https://gmd.copernicus.org/articles/19/5961/2026/"
+  doi: "10.5194/gmd-19-5961-2026"
+  pages: 5961-5978
+  year: 2026
+  publisher: "Geoscientific Model Development"
+  volume = 19
+  number = 13

@@ -1244,48 +1244,218 @@ body .markdown-body
 		.highlight .gc{color:#999;background-color:#EAF2F5}
   }
 }
-</style><title>index</title></head><body data-theme="auto"><article class="markdown-body"><h1 id="tracer-based-rapid-anthropogenic-carbon-estimation-trace">Tracer-based Rapid Anthropogenic Carbon Estimation (TRACE)<a class="headerlink" href="#tracer-based-rapid-anthropogenic-carbon-estimation-trace" title="Permanent link"></a></h1>
-<p><a href="https://github.com/d-sandborn/pyTRACE/actions/workflows/python-app.yml"><img alt="Python application" src="https://github.com/d-sandborn/pyTRACE/actions/workflows/python-app.yml/badge.svg" /></a> 
-<a href="https://doi.org/10.5281/zenodo.17822675"><img alt="DOI" src="https://zenodo.org/badge/DOI/10.5281/zenodo.17822675.svg" /></a></p>
-<p><strong>TRACE estimates ocean anthropogenic carbon (C<sub>anth</sub>)</strong> from user-supplied coordinates, salinity, temperature, and year. It implements the inverse gaussian transit time distribution method to increase accessibility, repeatability, and speed of C<sub>anth</sub> estimation.</p>
-<p><strong>TRACE is available for <a href="https://github.com/d-sandborn/TRACE">Python</a> and <a href="https://github.com/BRCScienceProducts/TRACEv1">MATLAB</a>,</strong> and is one of a family of ocean state estimation routines, developed in parallel with <a href="https://github.com/BRCScienceProducts/ESPER">ESPER</a> and <a href="https://github.com/LarissaMDias/PyESPER">PyESPER</a>. Users seeking estimates of present TA, DIC, pH, phosphate, nitrate, silicate, or oxygen should use (Py)ESPER. </p>
-<p><strong>TRACE is designed to be easy to <a href="https://d-sandborn.github.io/TRACE/#setup">install</a> and <a href="https://d-sandborn.github.io/TRACE/trace_howto/">use</a></strong> in your scientific workflow, but that doesn&rsquo;t mean it is easy to install or use yet. We welcome feedback and <a href="https://d-sandborn.github.io/TRACE/contributing/">contributions</a>.</p>
-<p><strong>TRACE is an evolving product</strong> which will incorporate new hydrographic observations and parameterizations as they become available to improve its estimates. Check out the <a href="https://d-sandborn.github.io/TRACE/versions/">version history</a> for more information. </p>
-<p><em>Below: Column inventory of C<sub>anth</sub> mapped for indicated years produced via TRACE analysis of the GLODAPv2.2016b gridded product assuming historical atmospheric CO<sub>2</sub> trajectory.</em></p>
-<p><img alt="" src="/home/des/Insync/dsandborntahoe%40gmail.com/Google%20Drive/Python_stuff/PyTRACE/TRACE/docs/col_inventory_multiplot.png" /></p>
-<h2 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link"></a></h2>
-<p>Ready to use TRACE? Pick your coding environment:</p>
-<div class="grid cards">
-<ul>
-<li>:fontawesome-brands-python: <strong>TRACE-Python</strong></li>
-<li>:fontawesome-brands-matlab: <strong>TRACEv1</strong></li>
-</ul>
-</div>
-<p>Download and unzip a <a href="https://github.com/d-sandborn/pyTRACE/releases">release</a>.  Ensure pip and python are installed in a virtual environment (we suggest <a href="https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html">this method</a>). TRACE can then be installed (as an editable install) by navigating to the unzipped directory of TRACE and running the following command in a terminal emulator
-<div class="highlight"><pre>python -m pip install -e .
+</style><title>trace_howto</title></head><body data-theme="auto"><article class="markdown-body"><h1 id="using-trace-python">Using TRACE-Python<a class="headerlink" href="#using-trace-python" title="Permanent link"></a></h1>
+<p>TRACE may be used to generate point estimates of anthropogenic carbon at one or more locations under default assumptions. Point estimates are demonstrated under <strong>General Use</strong>, below. More uses are demonstrated in the Examples. </p>
+<h2 id="general-use">General Use<a class="headerlink" href="#general-use" title="Permanent link"></a></h2>
+<p>Call TRACE within a Python script or iPython console by running </p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">tracepy</span> <span class="kn">import</span> <span class="n">trace</span>
 </pre></div>
-TRACE will be made available via pip once its dependencies are all available there. TRACE is not yet available via conda, but this is a target for future development if interest warrants it. PyCO2SYS &gt;= v2 is required for speed and stability purposes, and is installed by default using the command above. More information on that package can be found <a href="https://mvdh.xyz/PyCO2SYS/">here</a>.</p>
-<p>Finished installing? <a href="https://d-sandborn.github.io/TRACE/trace_howto/">Learn how to use TRACE here.</a></p>
-<h2 id="citation">Citation<a class="headerlink" href="#citation" title="Permanent link"></a></h2>
-<p>A paper describing TRACEv1 is freely available:</p>
-<div class="admonition note">
-<p class="admonition-title">TRACEv1 manuscript</p>
-<p>Carter, B. R., Schwinger, J., Sonnerup, R., Fassbender, A. J., Sharp, J. D., Dias, L. M., &amp; Sandborn, D. E. (2025). Tracer-based rapid anthropogenic carbon estimation (TRACE). Earth System Science Data, 17(6), 3073–3088. <a href="https://doi.org/10.5194/essd-17-3073-2025">https://doi.org/10.5194/essd-17-3073-2025</a></p>
-</div>
-<p>To cite the original TRACEv1 software:</p>
-<div class="admonition note">
-<p class="admonition-title">TRACEv1 software</p>
-<p>Carter, B. R. (2025). BRCScienceProducts/TRACEv1: TRACEv1_publication. Zenodo. <a href="https://doi.org/10.5281/zenodo.15692788">https://doi.org/10.5281/zenodo.15692788</a></p>
-</div>
-<p>To cite the Python implementation of TRACE:</p>
-<div class="admonition note">
-<p class="admonition-title">TRACE-Python software</p>
-<p>Sandborn, D. E., Barrett, R., &amp; Carter, B. R. (2025). d-sandborn/TRACE: Tracer-based Rapid Anthropogenic Carbon Estimation (TRACE) (v1.0.0). Zenodo. <a href="https://doi.org/10.5281/zenodo.17822675">https://doi.org/10.5281/zenodo.17822675</a></p>
-</div>
-<p>A publication describing the Python implementation of TRACE is presently in review:</p>
-<div class="admonition note">
-<p class="admonition-title">TRACE-Python manuscript</p>
-<p>Sandborn, D.E., Carter, B. R., Warner, M. J., &amp; Dias, L. M. TRACE-Python: Tracer-based Rapid Anthropogenic Carbon Estimation Implemented in Python (version 1.0). In review.</p>
-</div>
-<h2 id="disclaimer">Disclaimer<a class="headerlink" href="#disclaimer" title="Permanent link"></a></h2>
-<p>The material embodied in this software is provided to you &ldquo;as-is&rdquo; and without warranty of any kind, express, implied or otherwise, including without limitation, any warranty of fitness for a particular purpose. In no event shall the authors be liable to you or anyone else for any direct, special, incidental, indirect or consequential damages of any kind, or any damages whatsoever, including without limitation, loss of profit, loss of use, savings or revenue, or the claims of third parties, whether or not the authors have been advised of the possibility of such loss, however caused and on any theory of liability, arising out of or in connection with the possession, use or performance of this software.</p></article></body></html>
+
+<p>which will make available the top-level function for anthropogenic carbon estimation. For details on its input and output parameters, see the <a href="https://d-sandborn.github.io/TRACE/trace_howto/#arguments">API description below</a>, or call</p>
+<div class="highlight"><pre><span class="err">?</span><span class="n">trace</span>
+</pre></div>
+
+<p>To estimate anthropogenic carbon (C<sub>anth</sub>) at the surface ocean at the equator/prime meridian in the years 2000 and 2200 assuming IPCC pathway SSP5_3.4_over:</p>
+<div class="highlight"><pre><span class="n">output</span> <span class="o">=</span> <span class="n">trace</span><span class="p">(</span>
+    <span class="n">output_coordinates</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]),</span>
+    <span class="n">dates</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2200</span><span class="p">]),</span>
+    <span class="n">predictor_measurements</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">35</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span> <span class="p">[</span><span class="mi">35</span><span class="p">,</span> <span class="mi">20</span><span class="p">]]),</span>
+    <span class="n">predictor_types</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]),</span>
+    <span class="n">atm_co2_trajectory</span><span class="o">=</span><span class="mi">9</span>
+<span class="p">)</span>
+</pre></div>
+
+<p>which returns an <a href="https://docs.xarray.dev/en/latest/generated/xarray.Dataset.html">xarray dataset</a> containing C<sub>anth</sub> at the specified dates and times, its uncertainties, and associated metadata. More examples can be found in the <code>demos</code> folder. Attributes of the <a href="https://cfconventions.org/">CF-compliant</a> dataset describe the variables and their units.</p>
+<div class="highlight"><pre><span class="n">output</span>
+
+<span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="o">&gt;</span> <span class="n">Size</span><span class="p">:</span> <span class="mi">448</span><span class="n">B</span>
+<span class="n">Dimensions</span><span class="p">:</span>           <span class="p">(</span><span class="n">loc</span><span class="p">:</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">Coordinates</span><span class="p">:</span>
+    <span class="n">year</span>              <span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">U20</span> <span class="mi">160</span><span class="n">B</span> <span class="s1">&#39;2000-01-01T00:00:00Z&#39;</span> <span class="s1">&#39;2200-01-01T00:0...</span>
+    <span class="n">lon</span>               <span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="n">int64</span> <span class="mi">16</span><span class="n">B</span> <span class="mi">0</span> <span class="mi">0</span>
+    <span class="n">lat</span>               <span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="n">int64</span> <span class="mi">16</span><span class="n">B</span> <span class="mi">0</span> <span class="mi">0</span>
+    <span class="n">depth</span>             <span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="n">int64</span> <span class="mi">16</span><span class="n">B</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="n">Dimensions</span> <span class="n">without</span> <span class="n">coordinates</span><span class="p">:</span> <span class="n">loc</span>
+<span class="n">Data</span> <span class="n">variables</span><span class="p">:</span>
+    <span class="n">canth</span>             <span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="n">float64</span> <span class="mi">16</span><span class="n">B</span> <span class="mf">47.79</span> <span class="mf">79.87</span>
+    <span class="n">mean_age</span>          <span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="n">float64</span> <span class="mi">16</span><span class="n">B</span> <span class="mf">7.224</span> <span class="mf">7.224</span>
+    <span class="n">mode_age</span>          <span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="n">float64</span> <span class="mi">16</span><span class="n">B</span> <span class="mf">1.697</span> <span class="mf">1.697</span>
+    <span class="n">dic</span>               <span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="n">float64</span> <span class="mi">16</span><span class="n">B</span> <span class="mf">1.994e+03</span> <span class="mf">2.026e+03</span>
+    <span class="n">dic_ref</span>           <span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="n">float64</span> <span class="mi">16</span><span class="n">B</span> <span class="mf">1.946e+03</span> <span class="mf">1.946e+03</span>
+    <span class="n">pco2</span>              <span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="n">float64</span> <span class="mi">16</span><span class="n">B</span> <span class="mf">325.1</span> <span class="mf">380.7</span>
+    <span class="n">pco2_ref</span>          <span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="n">float64</span> <span class="mi">16</span><span class="n">B</span> <span class="mf">260.0</span> <span class="mf">260.0</span>
+    <span class="n">preformed_ta</span>      <span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="n">float64</span> <span class="mi">16</span><span class="n">B</span> <span class="mf">2.296e+03</span> <span class="mf">2.296e+03</span>
+    <span class="n">preformed_si</span>      <span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="n">float64</span> <span class="mi">16</span><span class="n">B</span> <span class="mf">2.167</span> <span class="mf">2.167</span>
+    <span class="n">preformed_p</span>       <span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="n">float64</span> <span class="mi">16</span><span class="n">B</span> <span class="mf">0.5108</span> <span class="mf">0.5108</span>
+    <span class="n">temperature</span>       <span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="n">float64</span> <span class="mi">16</span><span class="n">B</span> <span class="mf">20.0</span> <span class="mf">20.0</span>
+    <span class="n">salinity</span>          <span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="n">float64</span> <span class="mi">16</span><span class="n">B</span> <span class="mf">35.0</span> <span class="mf">35.0</span>
+    <span class="n">u_canth</span>           <span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="n">float64</span> <span class="mi">16</span><span class="n">B</span> <span class="mf">8.645</span> <span class="mf">12.92</span>
+    <span class="n">delta_over_gamma</span>  <span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="n">float64</span> <span class="mi">16</span><span class="n">B</span> <span class="mf">1.3</span> <span class="mf">1.3</span>
+    <span class="n">scale_factors</span>     <span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="n">float64</span> <span class="mi">16</span><span class="n">B</span> <span class="mf">0.05143</span> <span class="mf">0.05143</span>
+<span class="n">Attributes</span><span class="p">:</span>
+    <span class="n">Conventions</span><span class="p">:</span>        <span class="n">CF</span><span class="o">-</span><span class="mf">1.10</span>
+    <span class="n">description</span><span class="p">:</span>        <span class="n">Results</span> <span class="n">of</span> <span class="n">Tracer</span><span class="o">-</span><span class="n">based</span> <span class="n">Rapid</span> <span class="n">Anthropogenic</span> <span class="n">Carbon</span> <span class="n">Es</span><span class="o">...</span>
+    <span class="n">history</span><span class="p">:</span>            <span class="n">TRACE</span> <span class="n">version</span> <span class="mf">1.0</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="o">...</span>
+    <span class="n">date_created</span><span class="p">:</span>       <span class="mi">2025</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">16</span> <span class="mi">19</span><span class="p">:</span><span class="mi">36</span><span class="p">:</span><span class="mf">23.452010</span>
+    <span class="n">references</span><span class="p">:</span>         <span class="n">doi</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="mf">10.5194</span><span class="o">/</span><span class="n">essd</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">560</span>
+    <span class="n">co2sys_parameters</span><span class="p">:</span>  <span class="n">opt_pH_scale</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">opt_k_carbonic</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="n">opt_k_HSO4</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">o</span><span class="o">...</span>
+    <span class="n">trace_parameters</span><span class="p">:</span>   <span class="n">per_kg_sw_tf</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="n">canth_diseq</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">eos</span><span class="p">:</span> <span class="n">seawater</span><span class="p">,</span> <span class="o">...</span>
+
+<span class="n">output</span><span class="o">.</span><span class="n">canth</span><span class="o">.</span><span class="n">data</span>
+
+<span class="n">array</span><span class="p">([</span><span class="mf">47.78685407</span><span class="p">,</span> <span class="mf">79.87492991</span><span class="p">])</span>
+</pre></div>
+
+<p>This result above agrees exactly with TRACEv1, which gives C<sub>anth</sub> = <code>[47.7869 79.8749]</code> for the same inputs.</p>
+<h2 id="arguments">Arguments<a class="headerlink" href="#arguments" title="Permanent link"></a></h2>
+<p>Each argument to <code>trace</code> can either be a single scalar value (float or int), or an array given as a list or Numpy array containing a series of values. <code>trace</code> remains regrettably sensitive to argument formatting, so please check your input array dimensions and reach out with any problems (or solutions).</p>
+<div class="admonition inputs">
+<p class="admonition-title"><code>trace</code> Arguments</p>
+<p>Necessary input arguments include <code>output_coordinates</code>, <code>dates</code>, <code>predictor_measurements</code>, and <code>predictor_types</code>. All other parameters are optional, with their default values listed below. </p>
+<h3 id="coordinates">Coordinates<a class="headerlink" href="#coordinates" title="Permanent link"></a></h3>
+<p>Each of n rows of output coordinates and dates indicates a single location in space/time at which an estimation is made. <code>trace</code> cannot presently handle multidimensional (e.g. latitude/longitude/depth) arrays of coordinates: they must be <a href="https://numpy.org/doc/stable/reference/generated/numpy.ravel.html">flattened</a> to one-dimensional vectors, then concatenated into the columns as described below. </p>
+<ul>
+<li>
+<p><code>output_coordinates</code>: n by 3 array of coordinates (longitude decimal degrees E, latitude decimal degrees N, depth m, in that order) at which estimates are desired.</p>
+</li>
+<li>
+<p><code>dates</code>: n by 1 array of years c.e. for which estimates are desired. </p>
+</li>
+</ul>
+<h3 id="predictors">Predictors<a class="headerlink" href="#predictors" title="Permanent link"></a></h3>
+<p>Unlike for ESPER or PyESPER, only salinity and temperature are accepted predictors for age and other preformed properties. </p>
+<ul>
+<li>
+<p><code>predictor_measurements</code>: n by y array of y parameter measurements (salinity, temperature). The column order (y columns) is specified by predictor_types. Temperature should be expressed as degrees C and salinity should be specified on the practical scale with the unitless convention. nan inputs are acceptable, but will lead to nan estimates for any equations that depend on that parameter. If temperature is not provided it will be estimated from salinity (not recommended).</p>
+</li>
+<li>
+<p><code>predictor_types</code> : 1 by y array indicating which parameter is in each column of &lsquo;predictor_measurements&rsquo;. Note that salinity is required for all equations. This applies to all n estimates. Input parameter key:</p>
+<ul>
+<li><code>1</code>. Salinity</li>
+<li><code>2</code>. Temperature</li>
+</ul>
+</li>
+</ul>
+<h3 id="atmospheric-co2">Atmospheric CO2<a class="headerlink" href="#atmospheric-co2" title="Permanent link"></a></h3>
+<ul>
+<li>
+<p><code>atm_co2_trajectory</code> : Integer between 1 and 9 specifying the atmospheric xCO2 trajectory. This history has been modified to reflect the values that would be expected in the surface ocean given the slow response of the surface ocean to a rapidly changing atmospheric value. Custom columns can be added to the data/CO2TrajectoreisAdjusted.txt file and referenced here.</p>
+<ul>
+<li><code>1</code>. Historical/Linear <strong>(default)</strong></li>
+<li><code>2</code>. SSP1_1.9</li>
+<li><code>3</code>. SSP1_2.6</li>
+<li><code>4</code>. SSP2_4.5</li>
+<li><code>5</code>. SSP3_7.0</li>
+<li><code>6</code>. SSP3_7.0_lowNTCF</li>
+<li><code>7</code>. SSP4_3.4</li>
+<li><code>8</code>. SSP4_6.0</li>
+<li><code>9</code>. SSP5_3.4_over</li>
+</ul>
+</li>
+<li>
+<p><code>preindustrial_xco2</code> : Optional preindustrial reference xCO2 value. The default is <code>280</code>.</p>
+</li>
+<li>
+<p><code>canth_diseq</code> : Air-sea carbon dioxide equilibrium assumed for calculation of pCO2 as a function of atmospheric CO2. This should only be used if user-provided atmospheric trajectories not otherwise modified for anthropogenic carbon disequilibrium are being supplied. The default is <code>1</code>.</p>
+</li>
+</ul>
+<h3 id="output-options">Output Options<a class="headerlink" href="#output-options" title="Permanent link"></a></h3>
+<p><code>trace</code> returns a CF-compliant dataset, which may be directly saved to a file for ease of data archival and scientific replicability. </p>
+<ul>
+<li>
+<p><code>output_filename</code>: Filename for <code>trace</code> output to be saved in current working directory. If no filename is given, no file will be saved. Presently only NETCDF4 (.nc) files can be saved.  The default is <code>None</code>.</p>
+</li>
+<li>
+<p><code>verbose_tf</code> : Flag to control output verbosity. Setting this to False will make <code>trace</code> stop printing updates to the command line.  Warnings and errors, if any, will be given regardless. The default is <code>True</code>.</p>
+</li>
+</ul>
+<h3 id="pyco2sys-options">PyCO2SYS Options<a class="headerlink" href="#pyco2sys-options" title="Permanent link"></a></h3>
+<p><em>The descriptions here derive in part from the <a href="https://pyco2sys.readthedocs.io/en/latest/co2sys_nd/">PyCO2SYS docs</a></em> which the interested reader should consult for further explanation. </p>
+<ul>
+<li>
+<p><code>opt_pH_scale</code>: PyCO2SYS option for pH scale:</p>
+<ul>
+<li><code>1</code>. Total, i.e. $\mathrm{pH} = -\log_{10} ([\mathrm{H}^+] + [\mathrm{HSO}_4^-])$ <strong>(default)</strong></li>
+<li><code>2</code>. Seawater, i.e. $\mathrm{pH} = -\log_{10} ([\mathrm{H}^+] + [\mathrm{HSO}_4^-] + [\mathrm{HF}])$</li>
+<li><code>3</code>. Free, i.e. $\mathrm{pH} = -\log_{10} [\mathrm{H}^+]$</li>
+<li><code>4</code>. NBS, i.e. relative to NBS/NIST reference standards</li>
+</ul>
+</li>
+<li>
+<p><code>opt_k_carbonic</code>: PyCO2SYS option for carbonic acid dissociation constants:</p>
+<ul>
+<li><code>1</code>: RRV93 (0 &lt; <em>T</em> &lt; 45 °C, 5 &lt; <em>S</em> &lt; 45, Total scale, artificial seawater)</li>
+<li><code>2</code>: GP89 (−1 &lt; <em>T</em> &lt; 40 °C, 10 &lt; <em>S</em> &lt; 50, Seawater scale, artificial seawater)</li>
+<li><code>3</code>: H73a and H73b refit by DM87 (2 &lt; <em>T</em> &lt; 35 °C, 20 &lt; <em>S</em> &lt; 40, Seawater scale, artificial seawater)</li>
+<li><code>4</code>: MCHP73 refit by DM87 (2 &lt; <em>T</em> &lt; 35 °C, 20 &lt; <em>S</em> &lt; 40, Seawater scale, real seawater)</li>
+<li><code>5</code>: H73a, H73b and MCHP73 refit by DM87 (2 &lt; <em>T</em> &lt; 35 °C, 20 &lt; <em>S</em> &lt; 40, Seawater scale, artificial seawater)</li>
+<li><code>6</code>: MCHP73 aka &ldquo;GEOSECS&rdquo; (2 &lt; <em>T</em> &lt; 35 °C, 19 &lt; <em>S</em> &lt; 43, NBS scale, real seawater)</li>
+<li><code>7</code>: MCHP73 without certain species aka &ldquo;Peng&rdquo; (2 &lt; <em>T</em> &lt; 35 °C, 19 &lt; <em>S</em> &lt; 43, NBS scale, real seawater)</li>
+<li><code>8</code>: M79 (0 &lt; <em>T</em> &lt; 50 °C, <em>S</em> = 0, freshwater only)</li>
+<li><code>9</code>: CW98 (2 &lt; <em>T</em> &lt; 30 °C, 0 &lt; <em>S</em> &lt; 40, NBS scale, real estuarine seawater)</li>
+<li><code>10</code>: LDK00 (2 &lt; <em>T</em> &lt; 35 °C, 19 &lt; <em>S</em> &lt; 43, Total scale, real seawater) <strong>(default)</strong></li>
+<li><code>11</code>: MM02 (0 &lt; <em>T</em> &lt; 45 °C, 5 &lt; <em>S</em> &lt; 42, Seawater scale, real seawater)</li>
+<li><code>12</code>: MPL02 (−1.6 &lt; <em>T</em> &lt; 35 °C, 34 &lt; <em>S</em> &lt; 37, Seawater scale, field measurements)</li>
+<li><code>13</code>: MGH06 (0 &lt; <em>T</em> &lt; 50 °C, 1 &lt; <em>S</em> &lt; 50, Seawater scale, real seawater)</li>
+<li><code>14</code>: M10 (0 &lt; <em>T</em> &lt; 50 °C, 1 &lt; <em>S</em> &lt; 50, Seawater scale, real seawater)</li>
+<li><code>15</code>: WMW14 (0 &lt; <em>T</em> &lt; 45 °C, 0 &lt; <em>S</em> &lt; 45, Seawater scale, real seawater)</li>
+<li><code>16</code>: SLH20  (−1.67 &lt; <em>T</em> &lt; 31.80 °C, 30.73 &lt; <em>S</em> &lt; 37.57, Total scale, field measurements)</li>
+<li><code>17</code>: SB21 (15 &lt; <em>T</em> &lt; 35 °C, 19.6 &lt; <em>S</em> &lt; 41, Total scale, real seawater)</li>
+<li><code>18</code>: PLR18 (–6 &lt; <em>T</em> &lt; 25 °C, 33 &lt; <em>S</em> &lt; 100, Total scale, real seawater)</li>
+</ul>
+</li>
+</ul>
+<p>The brackets above show the valid temperature (<em>T</em>) and salinity (<em>S</em>) ranges, original pH scale, and type of material measured to derive each set of constants.</p>
+<ul>
+<li>
+<p><code>opt_k_HSO4</code>: PyCO2SYS option for bisulfate dissociation constant:</p>
+<ul>
+<li><code>1</code>: D90a <strong>(default)</strong></li>
+<li><code>2</code>: KRCB77</li>
+<li><code>3</code>: WM13/WMW14</li>
+</ul>
+</li>
+<li>
+<p><code>opt_total_borate</code>: PyCO2SYS option for borate:salinity relationship to use to estimate total borate:</p>
+<ul>
+<li><code>1</code>: U74 <strong>(default)</strong></li>
+<li><code>2</code>: LKB10</li>
+<li><code>3</code>: KSK18</li>
+</ul>
+</li>
+</ul>
+<h3 id="preformed-properties">Preformed Properties<a class="headerlink" href="#preformed-properties" title="Permanent link"></a></h3>
+<p>These inputs are particularly useful for looped estimations, e.g. for successive re-estimation over time. As preformed properties are time-invariant, feeding <code>trace</code> the previously-estimated preformed properties for the same locations saves the vast majority of the run time. </p>
+<ul>
+<li>
+<p><code>preformed_p</code>: n by 1 array of preformed P. When given along with preformed_ta and preformed_si, neural network estimation will be skipped. The default is <code>None</code>.</p>
+</li>
+<li>
+<p><code>preformed_si</code>: n by 1 array of preformed Si. When given along with preformed_ta and preformed_p, neural network estimation will be skipped. The default is <code>None</code>.</p>
+</li>
+<li>
+<p><code>preformed_ta</code>: n by 1 array of preformed TA. When given along with preformed_p and preformed_si, neural network estimation will be skipped. The default is <code>None</code>.</p>
+</li>
+<li>
+<p><code>scale_factors</code>: n by 1 array of scale factors for the inverse gaussian parameterization. When given neural network estimation will be skipped. The default is <code>None</code>.</p>
+</li>
+</ul>
+<h3 id="miscellaneous">Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permanent link"></a></h3>
+<ul>
+<li>
+<p><code>eos</code>: Choice of seawater equation of state to use for temperature, density, and depth conversions. Available choices are <code>seawater</code> (EOS-80) and <code>gsw</code> (TEOS-10). <code>seawater</code> will be deprecated, but is kept for compatibility with TRACEv1. The default is <code>seawater</code>.</p>
+</li>
+<li>
+<p><code>delta_over_gamma</code>: Ratio of second to first moments of inverse gaussian distribution used to convolute surface and interior histories of anthropogenic carbon. The default is <code>1.3038404810405297</code> to match TRACEv1 such that <code>pf=makedist(‘InverseGaussian’,‘mu’,1,‘lambda’,3.4)</code> is identical.</p>
+</li>
+<li>
+<p><code>meas_uncerts</code> : ArrayLike object of measurement uncertainties presented in order indicated by &lsquo;predictor_types&rsquo;. Providing these estimates may alter estimated uncertainties. Measurement uncertainties are a small part of TRACE estimate uncertainties for WOCE-quality measurements. However, estimate uncertainty scales with measurement uncertainty, so it is recommended that measurement uncertainties be specified for sensor measurements. If this optional input argument is not provided, the default WOCE-quality uncertainty is assumed. If values provided then the uncertainty estimates are assumed to apply uniformly to all input parameter measurements. The default is <code>None</code>.</p>
+</li>
+<li>
+<p><code>per_kg_sw_tf</code> : Retained for future development (allowing for flexible units for currently-unsupported predictors). The default is <code>True</code>.</p>
+</li>
+<li>
+<p><code>error_codes</code> : List of error codes to be parsed as np.nan in input parameter arrays. The default is <code>[-999, -9, -1e20]</code>.</p>
+</li>
+</ul>
+</div></article></body></html>
