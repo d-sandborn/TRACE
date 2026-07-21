@@ -466,7 +466,7 @@ def trace(
     # Calculate equilibrium DIC with and without anthropogenic CO2
     if verbose_tf:
         print("\nInitializing PyCO2SYS calculation.")
-    out = pyco2.sys(
+    co2s = pyco2.sys(
         alkalinity=pref_props_sub["Preformed_TA"],
         pCO2=vpfac
         * (
@@ -482,7 +482,7 @@ def trace(
         opt_k_HSO4=opt_k_HSO4,
         opt_total_borate=opt_total_borate,
     )
-    out = out["dic"]
+    out = co2s["dic"]
     out_ref = pyco2.sys(
         alkalinity=pref_props_sub["Preformed_TA"],
         pCO2=preindustrial_xco2 * vpfac,
@@ -759,7 +759,7 @@ def trace(
             + platform.platform(),
             date_created=str(datetime.datetime.now()),
             references="doi.org/10.5194/gmd-19-5961-2026",
-            co2sys_parameters=out.opts,#f"opt_pH_scale: {opt_pH_scale}, opt_k_carbonic: {opt_k_carbonic}, opt_k_HSO4: {opt_k_HSO4}, opt_total_borate: {opt_total_borate}",
+            co2sys_parameters=co2s.opts,#f"opt_pH_scale: {opt_pH_scale}, opt_k_carbonic: {opt_k_carbonic}, opt_k_HSO4: {opt_k_HSO4}, opt_total_borate: {opt_total_borate}",
             trace_parameters=f"per_kg_sw_tf: {per_kg_sw_tf}, canth_diseq: {canth_diseq}, eos: {eos}, delta_over_gamma: {delta_over_gamma}",
         ),
     )
