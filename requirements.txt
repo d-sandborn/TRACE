@@ -9,7 +9,7 @@ pyyaml
 tqdm
 seawater
 gsw
-git+https://github.com/mvdh7/PyCO2SYS@v2.0.0b7
+git+https://github.com/mvdh7/PyCO2SYS@v2.0.0b8
 numba
 shapely
 geopandas

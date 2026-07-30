@@ -78,7 +78,7 @@ This result above agrees exactly with TRACEv1, which gives C<sub>anth</sub> = ``
 
 ## Arguments
 
-Each argument to `trace` can either be a single scalar value (float or int), or an array given as a list or Numpy array containing a series of values. `trace` remains regrettably sensitive to argument formatting, so please check your input array dimensions and reach out with any problems (or solutions).
+Each argument to `trace` can be any object which is readily transformed into an array of the required dimensions without tiling/broadcasting/reshaping. Examples include floats, lists, tuples, `pandas` dataframes, and `xarray` datasets/arrays. Note that iteration over 2+ dimensions (e.g. a 3D volume) is not yet supported.
 
 !!! inputs "`trace` Arguments"
 
@@ -90,21 +90,21 @@ Each argument to `trace` can either be a single scalar value (float or int), or 
 
     Each of n rows of output coordinates and dates indicates a single location in space/time at which an estimation is made. `trace` cannot presently handle multidimensional (e.g. latitude/longitude/depth) arrays of coordinates: they must be [flattened](https://numpy.org/doc/stable/reference/generated/numpy.ravel.html) to one-dimensional vectors, then concatenated into the columns as described below. 
 
-    * `output_coordinates`: n by 3 array of coordinates (longitude decimal degrees E, latitude decimal degrees N, depth m, in that order) at which estimates are desired.
+    * `output_coordinates`: n by 3 object of coordinates (longitude decimal degrees E, latitude decimal degrees N, depth m, in that order) at which estimates are desired.
 
-    * `dates`: n by 1 array of years c.e. for which estimates are desired. 
+    * `dates`: n by 1 object of int or float years c.e. for which estimates are desired. If a float or int is provided it will be distributed to create a vector of length n. 
 
     ### Predictors
 
     Unlike for ESPER or PyESPER, only salinity and temperature are accepted predictors for age and other preformed properties. 
 
-    * `predictor_measurements`: n by y array of y parameter measurements (salinity, temperature). The column order (y columns) is specified by predictor_types. Temperature should be expressed as degrees C and salinity should be specified on the practical scale with the unitless convention. nan inputs are acceptable, but will lead to nan estimates for any equations that depend on that parameter. If temperature is not provided it will be estimated from salinity (not recommended).
+    * `predictor_measurements`: n by y object of y parameter measurements (salinity, temperature). The column order (y columns) is specified by predictor_types. Temperature should be expressed as degrees C and salinity should be specified on the practical scale with the unitless convention. nan inputs are acceptable, but will lead to nan estimates for any equations that depend on that parameter. If temperature is not provided it will be estimated from salinity (not recommended).
 
-    * `predictor_types` : 1 by y array indicating which parameter is in each column of 'predictor_measurements'. Note that salinity is required for all equations. This applies to all n estimates. Input parameter key:
+    * `predictor_types` : 1 by y object indicating which parameter is in each column of 'predictor_measurements'. Note that salinity is required for all equations. This applies to all n estimates. Input parameter key:
         * `1`. Salinity
         * `2`. Temperature
 
-    ### Atmospheric CO2 
+    ### Atmospheric CO2
 
     * `atm_co2_trajectory` : Integer between 1 and 9 specifying the atmospheric xCO2 trajectory. This history has been modified to reflect the values that would be expected in the surface ocean given the slow response of the surface ocean to a rapidly changing atmospheric value. Custom columns can be added to the data/CO2TrajectoreisAdjusted.txt file and referenced here.
         * `1`. Historical/Linear **(default)**
@@ -123,23 +123,25 @@ Each argument to `trace` can either be a single scalar value (float or int), or 
 
     ### Output Options
 
-    `trace` returns a CF-compliant dataset, which may be directly saved to a file for ease of data archival and scientific replicability. 
+    `trace` returns a CF-compliant `xarray.dataset`, which may be directly saved to a file for ease of data archival and scientific replicability. Options to return and save `pandas` and `numpy` objects are also described below.
 
-    * `output_filename`: Filename for `trace` output to be saved in current working directory. If no filename is given, no file will be saved. Presently only NETCDF4 (.nc) files can be saved.  The default is `None`.
+    * `output_filename`: Filename for `trace` output to be saved in current working directory. If no filename is given, no file will be saved. Presently .nc, .csv, and .npy files can be saved, depending on the output_format. It is good practice (but not strictly required) to include the filetype (e.g. ".nc") as a part of this argument.  The default is `None`.
+    
+    * `output_format`: Object format for TRACE output, enabling work with `xarray.dataset`s, `pandas.dataframe`s, or `numpy.array`s. Any of "xarray", "xr", "dataset", "netcdf", "nc", "pandas", "dataframe", "df", "csv", "numpy", "array", "matrix", "ndarray", or "np" are accepted. The default is `"xarray"`.
 
-    * `verbose_tf` : Flag to control output verbosity. Setting this to False will make `trace` stop printing updates to the command line.  Warnings and errors, if any, will be given regardless. The default is `True`.
+    * `verbose_tf` : Flag to control output verbosity. Setting this to `False` will make `trace` stop printing updates to the command line.  Warnings and errors, if any, will be given regardless. The default is `True`.
 
     ### Preformed Properties
 
     These inputs are particularly useful for looped estimations, e.g. for successive re-estimation over time. As preformed properties are time-invariant, feeding `trace` the previously-estimated preformed properties for the same locations saves the vast majority of the run time. 
     
-    * `preformed_p`: n by 1 array of preformed P. When given along with preformed_ta and preformed_si, neural network estimation will be skipped. The default is `None`.
+    * `preformed_p`: n by 1 array of preformed P. When given along with preformed_ta and preformed_si, neural network estimation will be skipped. If a float or int is provided it will be distributed to create a vector of length n. The default is `None`.
 
-    * `preformed_si`: n by 1 array of preformed Si. When given along with preformed_ta and preformed_p, neural network estimation will be skipped. The default is `None`.
+    * `preformed_si`: n by 1 array of preformed Si. When given along with preformed_ta and preformed_p, neural network estimation will be skipped. If a float or int is provided it will be distributed to create a vector of length n. The default is `None`.
 
-    * `preformed_ta`: n by 1 array of preformed TA. When given along with preformed_p and preformed_si, neural network estimation will be skipped. The default is `None`.
+    * `preformed_ta`: n by 1 array of preformed TA. When given along with preformed_p and preformed_si, neural network estimation will be skipped. If a float or int is provided it will be distributed to create a vector of length n. The default is `None`.
 
-    * `scale_factors`: n by 1 array of scale factors for the inverse gaussian parameterization. When given neural network estimation will be skipped. The default is `None`.
+    * `scale_factors`: n by 1 array of scale factors for the inverse gaussian parameterization. When given neural network estimation will be skipped. If a float or int is provided it will be distributed to create a vector of length n. The default is `None`.
 
     ### Miscellaneous
 

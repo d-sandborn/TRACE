@@ -22,16 +22,17 @@ from tracepy.utils import (
     equation_check,
     units_check,
     preindustrial_check,
-    uncerts_check,
     depth_check,
     coordinate_check,
     prepare_uncertainties,
     inverse_gaussian_wrapper,
     decimal_year_to_iso_timestamp,
     _integrate_column,
+    normalize_trace_inputs,
+    valid_trace_indices,
+    format_trace_output,
 )
 import platform
-
 
 DATADIR = joinpath(dirname(__file__), "data")
 
@@ -44,6 +45,7 @@ def trace(
     atm_co2_trajectory: int = 1,
     preindustrial_xco2: float = 280.0,
     output_filename: str = None,
+    output_format: str = "xarray",
     delta_over_gamma: float = None,
     verbose_tf=True,
     error_codes: list = [-999, -9, -1e20],
@@ -71,12 +73,12 @@ def trace(
     CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
     CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
-                             Python v1.0.0
+                             Python v1.1.0
 
-    Sandborn D. E., Carter, B. R., Barrett, R. 2025.
-    https://doi.org/10.5194/essd-17-3073-2025
+    Sandborn D. E., Carter, B. R., Barrett, R. 2026.
+    https://doi.org/10.5194/gmd-19-5961-2026
     MATLAB - github.com/BRCScienceProducts/TRACEv1
-    Python - github.com/d-sandborn/pyTRACE
+    Python - github.com/d-sandborn/TRACE
 
     Generates etimates of ocean anthropogenic carbon content from
     user-supplied inputs of coordinates (lat, lon, depth), salinity,
@@ -135,10 +137,18 @@ def trace(
     preindustrial_xco2 : float, optional
         Preindustrial reference xCO2 value. The default is 280.
     output_filename: str, optional
-        filename for TRACE output to be saved in current working directory.
-        If no filename is given, no file will be saved. Presently only NETCDF4
-        (.nc) files can be saved.
+        Filename for TRACE output to be saved in current working directory.
+        If no filename is given, no file will be saved. Presently .nc, .csv,
+        and .npy files can be saved, depending on the output_format. It is
+        good practice (but not strictly required) to include the filetype
+        (e.g. ".nc") as a part of this argument.
         The default is None.
+    output_format: str, optional
+        Object format for TRACE output, enabling work with xarray.datasets,
+        pandas.dataframes, or numpy.arrays. Any of "xarray", "xr", "dataset",
+        "netcdf", "nc", "pandas", "dataframe", "df", "csv", "numpy", "array",
+        "matrix", "ndarray", or "np" are accepted.
+        The default is 'xarray'
     verbose_tf : bool, optional
         Flag to control output verbosity. Setting this to False will
         make TRACE stop printing updates to the command line.  Warnings
@@ -225,41 +235,44 @@ def trace(
     # set at default 280 if not int or float
     preindustrial_xco2 = preindustrial_check(preindustrial_xco2)
 
-    (
-        meas_uncerts,
-        input_u,
-        use_default_uncertainties,
+    # coerces inputs to arrays, reshape as necessary
+    normalized = normalize_trace_inputs(
+        output_coordinates,
+        dates,
         predictor_measurements,
         predictor_types,
-    ) = uncerts_check(  # prep user-provided uncerts, also check array format
-        meas_uncerts,
-        predictor_measurements,
-        predictor_types,
+        meas_uncerts=meas_uncerts,
+        preformed_p=preformed_p,
+        preformed_si=preformed_si,
+        preformed_ta=preformed_ta,
+        scale_factors=scale_factors,
     )
+    output_coordinates = normalized["output_coordinates"]
+    dates = normalized["dates"]
+    predictor_measurements = normalized["predictor_measurements"]
+    predictor_types = normalized["predictor_types"]
+    meas_uncerts = normalized["meas_uncerts"]
+    preformed_p = normalized["preformed_p"]
+    preformed_si = normalized["preformed_si"]
+    preformed_ta = normalized["preformed_ta"]
+    scale_factors = normalized["scale_factors"]
 
     # TRACE requires non-NaN coordinates to provide an estimate.  This step
-    # eliminates NaN coordinate combinations prior to estimation.  NaN estimates
-    # will be returned for these coordinates.
-    valid_indices = ~np.logical_or(
-        np.isnan(output_coordinates).any(axis=1).reshape(-1, 1),
-        np.isnan(predictor_measurements)
-        .all(axis=1)
-        .reshape(-1, 1),  # True if both S and T are present
-        np.isnan(dates).reshape(-1, 1),
+    # eliminates NaN coordinate combinations prior to estimation.
+    # NaN estimates will be returned for these coordinates.
+    valid_indices = valid_trace_indices(
+        output_coordinates, dates, predictor_measurements, predictor_types
     )
-    valid_indices = np.argwhere(valid_indices > 0)[:, 0]
 
     # all depths made positive, also check array format
     output_coordinates = depth_check(output_coordinates, valid_indices)
 
-    # Doing a size check for the coordinates.
-    if np.shape(output_coordinates)[1] != 3:
-        raise ValueError(
-            "output_coordinates has too many or two few columns.  This version only allows 3 columns with the first being longitude (deg E), the second being latitude (deg N), and the third being depth (m)."
-        )
-
     # Figuring out how many estimates are required
     n = len(valid_indices)
+    if n == 0:
+        raise ValueError(
+            "TRACE found no valid rows. Check coordinates, dates, and salinity inputs."
+        )
 
     # Checking for common missing data indicator flags and warning if any are
     # found.
@@ -271,13 +284,6 @@ def trace(
 
     # Flag weird latitudes. Convert longitudes to 0-360.
     output_coordinates, C = coordinate_check(output_coordinates, valid_indices)
-    default_u_all, input_u_all = prepare_uncertainties(
-        predictor_measurements,
-        predictor_types,
-        valid_indices,
-        use_default_uncertainties,
-        input_u,
-    )
 
     # Ensure all predictors are identified
     if len(predictor_types) != predictor_measurements.shape[1]:
@@ -292,23 +298,41 @@ def trace(
         )
         ests = trace_nn(
             [7],
-            output_coordinates,
-            predictor_measurements[:, predictor_types == 1],
+            C,  # output_coordinates,
+            predictor_measurements[valid_indices, :][
+                :, predictor_types == 1
+            ],  # [:, predictor_types == 1],
             np.array([1]),
             DATADIR,
             verbose_tf=verbose_tf,
             eos=eos,
         )
+        # predictor_measurements = np.hstack(
+        #     (predictor_measurements, ests["Temperature"][:, None])
+        # )
+        estimated_temperature = np.full((len(output_coordinates), 1), np.nan)
+        estimated_temperature[valid_indices, 0] = ests["Temperature"][
+            valid_indices
+        ]
         predictor_measurements = np.hstack(
-            (predictor_measurements, ests["Temperature"][:, None])
+            (predictor_measurements, estimated_temperature)
         )
         predictor_types = np.append(predictor_types, 2)
+
+    default_u_all, input_u_all = prepare_uncertainties(
+        predictor_measurements,
+        predictor_types,
+        valid_indices,
+        meas_uncerts=meas_uncerts,
+    )
 
     # Reorder predictors
     m_all = np.full((n, 2), np.nan)
     u_all = np.full((n, 2), np.nan)
     m_all[:, predictor_types - 1] = predictor_measurements[valid_indices, :]
-    u_all[:, predictor_types - 1] = input_u_all[:, predictor_types]
+    u_all[:, predictor_types - 1] = input_u_all[
+        :, predictor_types - 1
+    ]  # u_all[:, predictor_types - 1] = input_u_all[:, predictor_types]
 
     # Reshape Dates if necessary
     try:
@@ -333,7 +357,7 @@ def trace(
             if verbose_tf:
                 print("\nUsing provided preformed properties.")
         except Exception as e:
-            print("\ne\nDefaulting to estimating preformed properties.")
+            print(f"\n{e}\nDefaulting to estimating preformed properties.")
             pref_props_sub = trace_nn(
                 [1, 2, 4],
                 C,
@@ -366,7 +390,7 @@ def trace(
             if verbose_tf:
                 print("\nUsing provided scale factors.")
         except Exception as e:
-            print("\ne\nDefaulting to estimating scale factors.")
+            print(f"\n{e}\nDefaulting to estimating scale factors.")
             sfs = trace_nn(
                 [6],
                 C,
@@ -398,16 +422,19 @@ def trace(
     # value. "Adjusted" can be deleted in the following line to use the
     # original atmospheric values.  If this approach is used, then users should
     # consider altering canth_diseq below to modulate the degree of equilibrium.
-    if verbose_tf:
-        print(
-            "\nLoading CO2 History:" + joinpath(DATADIR, "CO2TrajectoriesAdjusted.txt")
-        )
+    # if verbose_tf:
+    #     print(
+    #         "\nLoading CO2 History:"
+    #         + joinpath(DATADIR, "CO2TrajectoriesAdjusted.txt")
+    #     )
     co2_rec = np.loadtxt(joinpath(DATADIR, "CO2TrajectoriesAdjusted.txt"))
     co2_rec = np.vstack([co2_rec[0, :], co2_rec])  # redundant??
     co2_rec[0, 0] = -1e10  # Set ancient CO2 to preindustrial placeholder
 
     if delta_over_gamma is None:  # if no D/G specified
-        delta_over_gamma = 1.3038404810405297  # take default value == sqrt(3.4/2)
+        delta_over_gamma = (
+            1.3038404810405297  # take default value == sqrt(3.4/2)
+        )
 
     ventilation = inverse_gaussian_wrapper(
         x=np.arange(0.01, 5.01, 0.01), delta_over_gamma=delta_over_gamma
@@ -415,7 +442,9 @@ def trace(
 
     # Interpolate CO2 based on ventilation and atmospheric trajectory
     co2_set = interp1d(co2_rec[:, 0], co2_rec[:, atm_co2_trajectory])
-    co2_set = co2_set(dates[:, None] - sfs["SFs"].reshape(-1, 1) * np.arange(1, 501))
+    co2_set = co2_set(
+        dates[:, None] - sfs["SFs"].reshape(-1, 1) * np.arange(1, 501)
+    )
     co2_set = co2_set.dot(ventilation.T)
 
     # Calculate transit times (assumed based on ventilation)
@@ -437,10 +466,12 @@ def trace(
     # Calculate equilibrium DIC with and without anthropogenic CO2
     if verbose_tf:
         print("\nInitializing PyCO2SYS calculation.")
-    out = pyco2.sys(
+    co2s = pyco2.sys(
         alkalinity=pref_props_sub["Preformed_TA"],
         pCO2=vpfac
-        * (canth_diseq * (co2_set.T - preindustrial_xco2) + preindustrial_xco2),
+        * (
+            canth_diseq * (co2_set.T - preindustrial_xco2) + preindustrial_xco2
+        ),
         salinity=m_all[:, 0],
         temperature=m_all[:, 1],
         pressure=0,
@@ -451,7 +482,7 @@ def trace(
         opt_k_HSO4=opt_k_HSO4,
         opt_total_borate=opt_total_borate,
     )
-    out = out["dic"]
+    out = co2s["dic"]
     out_ref = pyco2.sys(
         alkalinity=pref_props_sub["Preformed_TA"],
         pCO2=preindustrial_xco2 * vpfac,
@@ -492,7 +523,9 @@ def trace(
             ),
             mean_age=(
                 ["loc"],
-                create_vector_with_values(len(output_coordinates), valid_indices, age),
+                create_vector_with_values(
+                    len(output_coordinates), valid_indices, age
+                ),
                 {
                     "units": "year",
                     "long_name": "mean water mass age",
@@ -512,7 +545,9 @@ def trace(
             ),
             dic=(
                 ["loc"],
-                create_vector_with_values(len(output_coordinates), valid_indices, out),
+                create_vector_with_values(
+                    len(output_coordinates), valid_indices, out
+                ),
                 {
                     "units": "micromole kg-1",
                     "long_name": "dissolved inorganic carbon",
@@ -716,28 +751,27 @@ def trace(
         attrs=dict(
             Conventions="CF-1.10",
             description="Results of Tracer-based Rapid Anthropogenic Carbon Estimation (TRACE)",
-            history="TRACE version 1.0.0, "
+            history="TRACE version 1.1.0, "
             + str(datetime.datetime.now())
             + " Python "
             + sys.version
             + " "
             + platform.platform(),
             date_created=str(datetime.datetime.now()),
-            references="doi.org/10.5194/essd-2024-560",
-            co2sys_parameters=f"opt_pH_scale: {opt_pH_scale}, opt_k_carbonic: {opt_k_carbonic}, opt_k_HSO4: {opt_k_HSO4}, opt_total_borate: {opt_total_borate}",
+            references="doi.org/10.5194/gmd-19-5961-2026",
+            co2sys_parameters=co2s.opts,#f"opt_pH_scale: {opt_pH_scale}, opt_k_carbonic: {opt_k_carbonic}, opt_k_HSO4: {opt_k_HSO4}, opt_total_borate: {opt_total_borate}",
             trace_parameters=f"per_kg_sw_tf: {per_kg_sw_tf}, canth_diseq: {canth_diseq}, eos: {eos}, delta_over_gamma: {delta_over_gamma}",
         ),
     )
     # Return results
     if verbose_tf:
         print("\nTRACE completed.")
-    if output_filename is not None:
-        try:
-            output.to_netcdf(output_filename)
-        except Exception as e:
-            print("File " + output_filename + " could not be saved")
-            print(e)
-    return output
+
+    return format_trace_output(
+        output,
+        output_format=output_format,
+        output_filename=output_filename,
+    )
 
 
 def integrate_column(
