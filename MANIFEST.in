@@ -1,1 +1,2 @@
 recursive-include tracepy/data *
+recursive-include tracepy/n2o/data *
