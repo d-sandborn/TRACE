@@ -39,6 +39,7 @@ def trace_n2o(
     predictor_measurements: npt.ArrayLike,
     predictor_types: npt.ArrayLike,
     atm_co2_trajectory: int = 1,
+    atm_n2o_trajectory: int = 1,
     preindustrial_xco2: float = 280.0,
     preindustrial_xn2o: float = 271.0,
     output_filename: str = None,
@@ -129,7 +130,20 @@ def trace_n2o(
             7. SSP4_3.4
             8. SSP4_6.0
             9. SSP5_3.4_over
-        Custom columns can be added to the data/CO2ATrajectoreisAdjusted.txt
+        Custom columns can be added to the data/CO2TrajectoriesAdjusted.txt
+        file and referenced here.
+    atm_n2o_trajectory : int
+        Integer between 1 and 9 specifying the atmospheric xCO2 trajectory:
+            1. Historical/Linear
+            2. SSP1_1.9
+            3. SSP1_2.6
+            4. SSP2_4.5
+            5. SSP3_7.0
+            6. SSP3_7.0_lowNTCF
+            7. SSP4_3.4
+            8. SSP4_6.0
+            9. SSP5_3.4_over
+        Custom columns can be added to the data/N2OTrajectories.txt
         file and referenced here.
     preindustrial_xco2 : float, optional
         Preindustrial reference xCO2 value. The default is 280.
@@ -283,7 +297,7 @@ def trace_n2o(
     n2o_rec = np.vstack([n2o_rec[0, :], n2o_rec])
     n2o_rec[0, 0] = -1e10
 
-    n2o_set = interp1d(n2o_rec[:, 0], n2o_rec[:, atm_co2_trajectory])
+    n2o_set = interp1d(n2o_rec[:, 0], n2o_rec[:, atm_n2o_trajectory])
     n2o_set = n2o_set(
         dates[valid_indices, None]
         - sfs[valid_indices, None] * np.arange(1, 501)
