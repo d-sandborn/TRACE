@@ -1,7 +1,7 @@
 # Tracer-based Rapid Anthropogenic Carbon Estimation (TRACE)
 
 [![Python application](https://github.com/d-sandborn/pyTRACE/actions/workflows/python-app.yml/badge.svg)](https://github.com/d-sandborn/pyTRACE/actions/workflows/python-app.yml) 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17822675.svg)](https://doi.org/10.5281/zenodo.17822675)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15597122.svg)](https://doi.org/10.5281/zenodo.15597122)
 [![coverage](https://github.com/d-sandborn/TRACE/blob/main/tests/coverage_badge.svg)](https://github.com/d-sandborn/TRACE/blob/main/tests/cov.md)
 
 This routine generates estimates of ocean anthropogenic carbon content from user-supplied inputs of coordinates (lon, lat, depth), salinity, temperature, and year. Information is also needed about the historical and/or future atmospheric CO<sub>2</sub> trajectory.  This information can be provided or default values can be assumed.  This tool is a multi-platform implementation of the inverse gaussian transit time distribution method aimed at increasing the accessibility of ocean anthropogenic carbon content estimation.
