@@ -22,6 +22,7 @@ nav:
       - Time series: trace_demo_timeseries_python.md
       - Column inventories: trace_demo_colint_python.md
       - Estimation without temperature: trace_demo_notemp_python.md
+      - Other transient tracers: trace_demo_other_transient_tracers.md
     - MATLAB: trace_demos_matlab.md
   - Version history: versions.md
   - Contributing: contributing.md
