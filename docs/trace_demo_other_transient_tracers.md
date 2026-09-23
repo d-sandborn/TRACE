@@ -2,7 +2,7 @@
 
 The age models produced by ```trace``` can be combined with the age history of an arbitrary transient traces to yield estimates of the atmospheric transient invasion of the ocean. So far, only nitrous oxide (N<sub>2</sub>O) has been implemented, based on the same atmospheric histories and trajectories informing CO<sub>2</sub>. The routine first runs `trace()` and then applies the TTD to the user-specified N<sub>2</sub>O trajectory. 
 
-**This routine is experimental, and is subject to further validation and peer-review in a manuscript in preparation.**
+**This routine is very experimental, and is subject to further validation and peer-review in a manuscript in preparation.**
 
 The relevant output quantities are:
 - **n2o**: Preformed nitrous oxide equilibrium concentration, in nmol kg<sup>-1</sup>.
