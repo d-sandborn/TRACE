@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from tracepy import trace, integrate_column
+from tracepy import trace, integrate_column, trace_n2o
 
 
 def test_dummy():
@@ -32,6 +32,19 @@ def test_trace_matlab_no_temperature():
     )
     assert np.abs(output.canth.data[0] - 56.0591388) < 0.00001
     assert np.abs(output.canth.data[1] - 66.4566880) < 0.00001
+
+
+def test_trace_n2o():
+    """Is TRACE giving results for the n2o estimate?"""
+    output = trace_n2o(
+        output_coordinates=np.array([[0, 0, 0], [0, 0, 0]]),
+        dates=np.array([2000, 2200]),
+        predictor_measurements=np.array([[35, 20], [35, 20]]),
+        predictor_types=np.array([1, 2]),
+        atm_n2o_trajectory=1,
+    )
+    assert isinstance(output.n2o_prime.data[0], float)
+    assert isinstance(output.n2o_prime.data[1], float)
 
 
 def test_integrate_column():

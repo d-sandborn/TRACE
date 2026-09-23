@@ -1,6 +1,17 @@
 # Version History
 
-## v1.0.0 **(current)**
+## v1.1.0 **(current)**
+
+Post-publication of peer-reviewed manuscript, with additional stability fixes:
+
+* Input variables are more forgiving of shape and type (list, array, dataframe, dataarray, etc.)
+* Improved input checks for values outside of training data.
+* Main function now returns either a (default) dataarray, dataframe, or matrix.
+* Cleared up (updated beta) pyco2sys parameter reporting in output dataarray.
+* Fixed bugs in uncertainty propagation.
+* Data files are now included in pip installs with a MANIFEST file.
+
+## v1.0.0
 
 This release is in preparation for a peer-reviewed publication.
 

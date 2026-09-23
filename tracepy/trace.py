@@ -73,7 +73,7 @@ def trace(
     CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
     CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
-                             Python v1.1.0
+                             Python v1.1.1
 
     Sandborn D. E., Carter, B. R., Barrett, R. 2026.
     https://doi.org/10.5194/gmd-19-5961-2026
@@ -759,7 +759,7 @@ def trace(
             + platform.platform(),
             date_created=str(datetime.datetime.now()),
             references="doi.org/10.5194/gmd-19-5961-2026",
-            co2sys_parameters=co2s.opts,#f"opt_pH_scale: {opt_pH_scale}, opt_k_carbonic: {opt_k_carbonic}, opt_k_HSO4: {opt_k_HSO4}, opt_total_borate: {opt_total_borate}",
+            co2sys_parameters=co2s.opts,  # f"opt_pH_scale: {opt_pH_scale}, opt_k_carbonic: {opt_k_carbonic}, opt_k_HSO4: {opt_k_HSO4}, opt_total_borate: {opt_total_borate}",
             trace_parameters=f"per_kg_sw_tf: {per_kg_sw_tf}, canth_diseq: {canth_diseq}, eos: {eos}, delta_over_gamma: {delta_over_gamma}",
         ),
     )
