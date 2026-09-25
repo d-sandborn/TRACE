@@ -18,6 +18,26 @@ DATADIR = joinpath(dirname(__file__), "data")
 
 @njit
 def n2o_eq(n2o_ppb, sal, temp):
+    """
+    Calculate the (dry) equilibrium concentration of nitrous oxide in seawater.
+    After Weiss and Price, 1980. Equivalent to K_o * x' (Eq. 8).
+    Needs correction by water vapor pressure to yield actual conc!
+
+    Parameters
+    ----------
+    n2o_ppb : float or array-like
+        Atmospheric nitrous oxide dry molar mixing fraction.
+    sal : float or array-like
+        Salinity, practical.
+    temp : float or array-like
+        Temperature, celcius
+
+    Returns
+    -------
+    float or array-like
+        Dry equilibrium concentration of nitrous oxide in seawater.
+    """
+
     pt68 = temp * 1.00024
     y = pt68 + 273.15
     y_100 = y * 1e-2
@@ -71,7 +91,7 @@ def trace_n2o(
     CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
     CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
-                             Python v1.1.1
+                             for Python
 
     Sandborn D. E., Carter, B. R., Barrett, R. 2026.
     https://doi.org/10.5194/gmd-19-5961-2026
@@ -270,9 +290,7 @@ def trace_n2o(
 
     sfs = output["scale_factors"].values.astype(float)
     dates = np.asarray(dates, dtype=float).reshape(-1)
-    delta_over_gamma = np.nanmedian(
-        output["delta_over_gamma"].values.astype(float)
-    )
+    delta_over_gamma = np.nanmedian(output["delta_over_gamma"].values.astype(float))
     ventilation = inverse_gaussian_wrapper(
         x=np.arange(0.01, 5.01, 0.01), delta_over_gamma=delta_over_gamma
     )
@@ -299,8 +317,7 @@ def trace_n2o(
 
     n2o_set = interp1d(n2o_rec[:, 0], n2o_rec[:, atm_n2o_trajectory])
     n2o_set = n2o_set(
-        dates[valid_indices, None]
-        - sfs[valid_indices, None] * np.arange(1, 501)
+        dates[valid_indices, None] - sfs[valid_indices, None] * np.arange(1, 501)
     ).dot(ventilation.T)
 
     if eos.lower() == "gsw":
