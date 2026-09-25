@@ -18,6 +18,26 @@ DATADIR = joinpath(dirname(__file__), "data")
 
 @njit
 def n2o_eq(n2o_ppb, sal, temp):
+    """
+    Calculate the (dry) equilibrium concentration of nitrous oxide in seawater.
+    After Weiss and Price, 1980. Equivalent to K_o * x' (Eq. 8).
+    Needs correction by water vapor pressure to yield actual conc!
+
+    Parameters
+    ----------
+    n2o_ppb : float or array-like
+        Atmospheric nitrous oxide dry molar mixing fraction.
+    sal : float or array-like
+        Salinity, practical.
+    temp : float or array-like
+        Temperature, celcius
+
+    Returns
+    -------
+    float or array-like
+        Dry equilibrium concentration of nitrous oxide in seawater.
+    """
+
     pt68 = temp * 1.00024
     y = pt68 + 273.15
     y_100 = y * 1e-2

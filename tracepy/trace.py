@@ -311,9 +311,7 @@ def trace(
         #     (predictor_measurements, ests["Temperature"][:, None])
         # )
         estimated_temperature = np.full((len(output_coordinates), 1), np.nan)
-        estimated_temperature[valid_indices, 0] = ests["Temperature"][
-            valid_indices
-        ]
+        estimated_temperature[valid_indices, 0] = ests["Temperature"][valid_indices]
         predictor_measurements = np.hstack(
             (predictor_measurements, estimated_temperature)
         )
@@ -432,9 +430,7 @@ def trace(
     co2_rec[0, 0] = -1e10  # Set ancient CO2 to preindustrial placeholder
 
     if delta_over_gamma is None:  # if no D/G specified
-        delta_over_gamma = (
-            1.3038404810405297  # take default value == sqrt(3.4/2)
-        )
+        delta_over_gamma = 1.3038404810405297  # take default value == sqrt(3.4/2)
 
     ventilation = inverse_gaussian_wrapper(
         x=np.arange(0.01, 5.01, 0.01), delta_over_gamma=delta_over_gamma
@@ -442,9 +438,7 @@ def trace(
 
     # Interpolate CO2 based on ventilation and atmospheric trajectory
     co2_set = interp1d(co2_rec[:, 0], co2_rec[:, atm_co2_trajectory])
-    co2_set = co2_set(
-        dates[:, None] - sfs["SFs"].reshape(-1, 1) * np.arange(1, 501)
-    )
+    co2_set = co2_set(dates[:, None] - sfs["SFs"].reshape(-1, 1) * np.arange(1, 501))
     co2_set = co2_set.dot(ventilation.T)
 
     # Calculate transit times (assumed based on ventilation)
@@ -456,8 +450,8 @@ def trace(
     # Calculate vapor pressure correction term
     vpwp = np.exp(
         24.4543
-        - 67.4509 * (100 / (293.15 + m_all[:, 1]))
-        - 4.8489 * np.log((293.15 + m_all[:, 1]) / 100)
+        - 67.4509 * (100 / (273.15 + m_all[:, 1]))
+        - 4.8489 * np.log((273.15 + m_all[:, 1]) / 100)
     )
     vpcorr_wp = np.exp(-0.000544 * m_all[:, 0])
     vpswwp = vpwp * vpcorr_wp
@@ -469,9 +463,7 @@ def trace(
     co2s = pyco2.sys(
         alkalinity=pref_props_sub["Preformed_TA"],
         pCO2=vpfac
-        * (
-            canth_diseq * (co2_set.T - preindustrial_xco2) + preindustrial_xco2
-        ),
+        * (canth_diseq * (co2_set.T - preindustrial_xco2) + preindustrial_xco2),
         salinity=m_all[:, 0],
         temperature=m_all[:, 1],
         pressure=0,
@@ -523,9 +515,7 @@ def trace(
             ),
             mean_age=(
                 ["loc"],
-                create_vector_with_values(
-                    len(output_coordinates), valid_indices, age
-                ),
+                create_vector_with_values(len(output_coordinates), valid_indices, age),
                 {
                     "units": "year",
                     "long_name": "mean water mass age",
@@ -545,9 +535,7 @@ def trace(
             ),
             dic=(
                 ["loc"],
-                create_vector_with_values(
-                    len(output_coordinates), valid_indices, out
-                ),
+                create_vector_with_values(len(output_coordinates), valid_indices, out),
                 {
                     "units": "micromole kg-1",
                     "long_name": "dissolved inorganic carbon",
