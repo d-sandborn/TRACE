@@ -73,7 +73,7 @@ def trace(
     CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
     CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
-                             Python v1.1.1
+                             for Python
 
     Sandborn D. E., Carter, B. R., Barrett, R. 2026.
     https://doi.org/10.5194/gmd-19-5961-2026
@@ -739,7 +739,7 @@ def trace(
         attrs=dict(
             Conventions="CF-1.10",
             description="Results of Tracer-based Rapid Anthropogenic Carbon Estimation (TRACE)",
-            history="TRACE version 1.1.0, "
+            history="TRACE for Python, "
             + str(datetime.datetime.now())
             + " Python "
             + sys.version
