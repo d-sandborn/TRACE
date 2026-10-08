@@ -1,15 +1,18 @@
 # Other transient tracers
 
-The age models produced by ```trace``` can be combined with the age history of an arbitrary transient traces to yield estimates of the atmospheric transient invasion of the ocean. So far, only nitrous oxide (N<sub>2</sub>O) has been implemented, based on the same atmospheric histories and trajectories informing CO<sub>2</sub>. The routine first runs `trace()` and then applies the TTD to the user-specified N<sub>2</sub>O trajectory. 
+The age models produced by `trace` can be combined with the age history of an arbitrary transient traces to yield estimates of the atmospheric transient invasion of the ocean. So far, only nitrous oxide (N<sub>2</sub>O) has been implemented. The routine first runs `trace` and then applies the TTD to a user-specified N<sub>2</sub>O trajectory. 
 
-**This routine is very experimental, and is subject to further validation and peer-review in a manuscript in preparation.**
+!!! danger "Experimental"
+
+    This routine is experimental, and is subject to further validation and peer-review in a manuscript in preparation.
 
 The relevant output quantities are:
-- **n2o**: Preformed nitrous oxide equilibrium concentration, in nmol kg<sup>-1</sup>.
-- **n2o_ref**: Preindustrial preformed nitrous oxide equilibrium concentration, in nmol kg<sup>-1</sup>.
-- **pn2o**: Preformed nitrous oxide equilibrium partial pressure, in natm.
-- **pn2o_ref**: Preindustrial preformed nitrous oxide equilibrium partial pressure, in natm.
-- **n2o_prime**: Concentration of atmospheric transient nitrous oxide, equal to **n2o**-**n2o_ref**. This is analagous to C<sub>anth</sub>, except that the imperfectly-transient nature of nitrous oxide precludes denoting this fraction "anthropogenic".
+
+- `n2o`: Preformed nitrous oxide equilibrium concentration, in nmol kg<sup>-1</sup>.
+- `n2o_ref`: Preindustrial preformed nitrous oxide equilibrium concentration, in nmol kg<sup>-1</sup>.
+- `pn2o`: Preformed nitrous oxide equilibrium partial pressure, in natm.
+- `pn2o_ref`: Preindustrial preformed nitrous oxide equilibrium partial pressure, in natm.
+- `n2o_prime`: Concentration of atmospheric transient nitrous oxide, equal to (**n2o**-**n2o_ref**). This is analagous to C<sub>anth</sub>, except that the imperfectly-transient nature of nitrous oxide precludes denoting this fraction "anthropogenic".
 
 ```python
 output = trace_n2o(
@@ -59,3 +62,21 @@ array([0.75498545, 0.88762136])
 
 ```
 
+## Arguments
+
+Arguments to `trace_n2o` are the same as those of `trace`, with two optional additional parameters:
+
+!!! inputs "Additional `trace_n2o` Arguments"
+
+    * `atm_n2o_trajectory`: Integer between 1 and 9 specifying the atmospheric xN<sub>2</sub>O trajectory. This history has **not** been modified to reflect the values that would be expected in the surface ocean given the slow response of the surface ocean to a rapidly changing atmospheric value. Custom columns can be added to `data/N2OTrajectories.txt` and referenced here.
+        * `1`. Historical/Linear **(default)**
+        * `2`. SSP1_1.9
+        * `3`. SSP1_2.6
+        * `4`. SSP2_4.5
+        * `5`. SSP3_7.0
+        * `6`. SSP3_7.0_lowNTCF
+        * `7`. SSP4_3.4
+        * `8`. SSP4_6.0
+        * `9`. SSP5_3.4_over
+
+    * `preindustrial_xn2o`: Optional preindustrial reference xN<sub>2</sub>O value. The default is 271.
