@@ -4,13 +4,13 @@ This function needs the CSIRO seawater package to run. Scale differences from TE
 
 !!! inputs "`TRACEv1` Arguments"
 
-	Array dimensions:
+    Array dimensions:
 
-	- p: Integer number of desired estimate types. For TRACE this is always 1. 
-	- n: Integer number of desired estimate locations 
-	- e: Integer number of equations used at each location (up to 4) 
-	- y: Integer number of parameter measurement types provided by the user. 
-	- n*e: Total number of estimates returned as an n by e array
+    - p: Integer number of desired estimate types. For TRACE this is always 1. 
+    - n: Integer number of desired estimate locations 
+    - e: Integer number of equations used at each location (up to 4) 
+    - y: Integer number of parameter measurement types provided by the user. 
+    - n*e: Total number of estimates returned as an n by e array
 
     ### Coordinates
 
@@ -25,12 +25,16 @@ This function needs the CSIRO seawater package to run. Scale differences from TE
     Unlike for ESPER, only salinity and temperature are accepted predictors for age and other preformed properties. 
 
     * `PredictorMeasurements` (required n by y array): Parameter measurements that will be used to estimate alkalinity. The column order (y columns) is arbitrary, but specified by PredictorTypes. Temperature should be expressed as degrees C and salinity should be specified with the unitless convention. NaN inputs are acceptable, but will lead to NaN estimates for any equations that depend on that parameter. If temperature is not provided then it will be estimated from salinity (not recommended).
+    
+    !!! warning "Temperature/Salinity Scales"
+    
+        Temperature **must** be given as in-situ values on the ITS-90 scale (not potential temperature, not conservative temperature). Salinity **must** be given as practical salinity (not absolute salinity). Users may employ the [GSW](https://www.teos-10.org/software.htm#1) toolbox to make the necessary conversions before entering them into `trace`. 
 
     * `PredictorTypes` (required 1 by y vector): Vector indicating which parameter is placed in each column of the 'PredictorMeasurements' input. Note that salinity is required for all equations. Input parameter key:
-        * `1`. Salinity
-        * `2`. Temperature
+        * `1`. Practical Salinity
+        * `2`. In-situ Temperature
 
-    ### Atmospheric CO2 
+    ### Atmospheric CO2
 
     * `AtmCO2Trajectory` (integer between 1 and 9): This specifies the atmospheric CO2Trajectory. There are several options between Historical and SSPs. Historical are derived from [this website](https://www.ncei.noaa.gov/access/paleo-search/study/10437) supplemented from [here](https://gml.noaa.gov/webdata/ccgg/trends/co2/co2_annmean_mlo.txt) after 1959. Historical is currently updated through 2022 and assumes a linear increase in the years that follow (recommended that you update the underlying data file as needed). SSPs are from the supplement to [Meinshausen et al. 2020](https://gmd.copernicus.org/articles/13/3571/2020/). RCPs are not currently supported, but can be added to the file if the user desires
         * `1`. Historical/Linear **(default)**

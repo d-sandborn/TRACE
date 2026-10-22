@@ -348,9 +348,7 @@ def trace_n2o(
 
     sfs = output["scale_factors"].values.astype(float)
     dates = np.asarray(dates, dtype=float).reshape(-1)
-    delta_over_gamma = np.nanmedian(
-        output["delta_over_gamma"].values.astype(float)
-    )
+    delta_over_gamma = np.nanmedian(output["delta_over_gamma"].values.astype(float))
     ventilation = inverse_gaussian_wrapper(
         x=np.arange(0.01, 5.01, 0.01), delta_over_gamma=delta_over_gamma
     )
@@ -377,8 +375,7 @@ def trace_n2o(
 
     n2o_set = interp1d(n2o_rec[:, 0], n2o_rec[:, atm_n2o_trajectory])
     n2o_set = n2o_set(
-        dates[valid_indices, None]
-        - sfs[valid_indices, None] * np.arange(1, 501)
+        dates[valid_indices, None] - sfs[valid_indices, None] * np.arange(1, 501)
     ).dot(ventilation.T)
 
     if eos.lower() == "gsw":
@@ -453,7 +450,7 @@ def trace_n2o(
         full_n2o_out - full_n2o_ref,
         {
             "units": "nmol kg-1",
-            "long_name": "anthropogenic nitrous oxide",
+            "long_name": "transient nitrous oxide concentration",
         },
     )
 

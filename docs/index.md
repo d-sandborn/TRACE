@@ -33,7 +33,7 @@ To cite the Python implementation of TRACE:
 
 !!! note "TRACE-Python software" 
 
-    Sandborn, D. E., Barrett, R., & Carter, B. R. (2025). d-sandborn/TRACE: Tracer-based Rapid Anthropogenic Carbon Estimation (TRACE) (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.17822675
+    Sandborn, D. E., Barrett, R., & Carter, B. R. (2025). d-sandborn/TRACE: Tracer-based Rapid Anthropogenic Carbon Estimation (TRACE) (v1.1.3). Zenodo. https://doi.org/10.5281/zenodo.17822675
 
 A paper describing TRACEv1 is freely available:
 
