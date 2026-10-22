@@ -20,8 +20,8 @@ DATADIR = joinpath(dirname(__file__), "data")
 def n2o_eq(n2o_ppb, sal, temp):
     """
     Calculate the (dry) equilibrium concentration of nitrous oxide in seawater.
-    After Weiss and Price, 1980. Equivalent to K_o * x' (Eq. 8).
-    Needs correction by water vapor pressure to yield actual conc!
+    After Weiss and Price, 1980. Equivalent to K_o * x' * f.
+    Needs correction by water vapor pressure to yield actual conc.
 
     Parameters
     ----------
@@ -49,8 +49,66 @@ def n2o_eq(n2o_ppb, sal, temp):
             + 25.2049 * np.log(y_100)
             + sal * (-0.062544 + y_100 * (0.035337 - 0.0054699 * y_100))
         )
+        * N2Ofugacity_factor(pt68)
         * n2o_ppb
     )
+
+
+@njit
+def N2Ofugacity_factor(pt, slp=1.0):
+    """
+    DESCRIPTION
+    -------------
+    Calculate the combined fugacity correction factor for N2O.
+
+    Returns the exponential term of Weiss and Price (1980), eq. (9):
+
+        F = K0 * (P - pH2O) * exp[ P*(B + 2*delta)/(R*T) + v*(1 - P)/(R*T) ]
+
+    i.e. fugfac = exp[ P*(B + 2*delta)/(R*T) + v*(1 - P)/(R*T) ], which
+    combines the gas non-ideality of N2O in air (first term; (B + 2*delta)/RT
+    from eq. (11)) with the pressure dependence of K0 via the partial molal
+    volume v (second term; eq. (1)). The second term is zero at P = 1 atm.
+
+    K0 * x' * (P - pH2O) * fugfac is therefore the equilibrium concentration
+    at total pressure P, where K0 is from gasex.sol.N2Osol_SP_pt and x' is
+    the dry-air mole fraction of N2O.
+
+    INPUTS:
+    ----------
+    pt      Potential temperature (ITS-90) referenced to 1 atm   [deg C]
+    slp     Sea level pressure                                   [atm] (default: 1.0)
+
+    OUTPUT:
+    ----------
+    fugfac  Combined fugacity correction factor for N2O, Weiss and Price
+            (1980) eq. (9) (dimensionless)
+
+    AUTHOR: Colette Kelly
+    """
+    # Weiss and Price calculation uses R = 0.08205601 L*atm/mol/K
+    # define local R here instead of using global R from gasex.phys
+    R = 0.08205601
+
+    # Weiss and Price: partial molal volume of N2O is 32.3 cm3/mol
+    v = 32.3
+    # need to convert from cm3 to L for exponential term 2 to be dimensionless
+    v = v / 1000
+
+    # Convert temperature to IPTS-68 to match temperatures used in Weiss and Price
+    pt68 = pt * 1.00024
+    y = pt68 + 273.15  # K0 is 0 Celsius in Kelvin
+
+    # Calculate exponential term 1: P*(B + 2*delta)/RT (Weiss and Price 1980, eqns. (9) and (11))
+    eterm1 = slp * (-9.4563 / y + 0.04739 - 6.427 * 10**-5 * y)
+
+    # Calculate exponential term 2: v*(1 - P)/RT (Weiss and Price 1980, eqns. (1) and (9))
+    eterm2 = (1 - slp) * v / (R * y)
+
+    # combined fugacity correction factor, Weiss and Price 1980, eqn. (9)
+    fugfac = np.exp(eterm1 + eterm2)
+
+    return fugfac
 
 
 def trace_n2o(
@@ -290,7 +348,9 @@ def trace_n2o(
 
     sfs = output["scale_factors"].values.astype(float)
     dates = np.asarray(dates, dtype=float).reshape(-1)
-    delta_over_gamma = np.nanmedian(output["delta_over_gamma"].values.astype(float))
+    delta_over_gamma = np.nanmedian(
+        output["delta_over_gamma"].values.astype(float)
+    )
     ventilation = inverse_gaussian_wrapper(
         x=np.arange(0.01, 5.01, 0.01), delta_over_gamma=delta_over_gamma
     )
@@ -317,7 +377,8 @@ def trace_n2o(
 
     n2o_set = interp1d(n2o_rec[:, 0], n2o_rec[:, atm_n2o_trajectory])
     n2o_set = n2o_set(
-        dates[valid_indices, None] - sfs[valid_indices, None] * np.arange(1, 501)
+        dates[valid_indices, None]
+        - sfs[valid_indices, None] * np.arange(1, 501)
     ).dot(ventilation.T)
 
     if eos.lower() == "gsw":

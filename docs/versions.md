@@ -1,6 +1,6 @@
 # Version History
 
-## v1.1.0 **(current)**
+## v1.1 **(current)**
 
 Post-publication of peer-reviewed manuscript, with additional stability fixes:
 
@@ -11,7 +11,7 @@ Post-publication of peer-reviewed manuscript, with additional stability fixes:
 * Fixed bugs in uncertainty propagation.
 * Data files are now included in pip installs with a MANIFEST file.
 
-## v1.0.0
+## v1.0
 
 This release is in preparation for a peer-reviewed publication.
 
@@ -20,7 +20,7 @@ This release is in preparation for a peer-reviewed publication.
 * Changed module/function calls to reduce conflict with builtin trace.py.
 * Other bug fixes and speed improvements.
 
-## v0.3.0-beta
+## v0.3-beta
 
 This release is in preparation for a peer-reviewed publication.
 
@@ -32,7 +32,7 @@ This release is in preparation for a peer-reviewed publication.
 * Set up publication pipeline for PyPI.
 * Other bug fixes and speed improvements.
 
-## v0.2.0-beta
+## v0.2-beta
 
 This release is in preparation for a peer-reviewed publication.
 
@@ -43,7 +43,7 @@ This release is in preparation for a peer-reviewed publication.
 * Greatly expanded documentation in docstrings, comments. True docs are yet to come.
 * Other bug fixes and speed improvements.
 
-## v0.1.0-beta
+## v0.1-beta
 
 * Agreement with TRACEv1 (MATLAB) reached for check values (it was the vapor pressure correction's fault).
 * Most under-the-hood parameters made accessible at top-level function, including inverse gaussian shape, CO2SYS options, and atmospheric disequilibrium.
