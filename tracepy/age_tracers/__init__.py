@@ -410,12 +410,12 @@ def trace_age_tracers(
         ).dot(ventilation.T)
 
         ptr_set = vpfac[valid_indices] * tr_set
-        if tr == "sf6":
-            ptr_set *= 1000.0  # pmol to fmol
         ptr_ref = np.zeros_like(ptr_set)  # nil for age tracers
         tr_out = tracer_eq(
             ptr_set, sal[valid_indices], temp[valid_indices], tr.upper()
         )
+        if tr == "sf6":
+            tr_out *= 1000.0  # pmol to fmol
         tr_ref = np.zeros_like(tr_out)
 
         full_tr_set = np.full(len(sfs), np.nan)
