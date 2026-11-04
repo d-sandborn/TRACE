@@ -299,9 +299,9 @@ def trace_age_tracers(
         is saved to the directory indicated by output_filename if provided.
 
     """
-    
+
     for tr in which_tracers:
-        if tr is not in ["cfc11", "cfc12", "sf6"]:
+        if tr not in ["cfc11", "cfc12", "sf6"]:
             raise ValueError(f"{tr} is not recognized.")
 
     output = trace(
@@ -410,8 +410,8 @@ def trace_age_tracers(
         ).dot(ventilation.T)
 
         ptr_set = vpfac[valid_indices] * tr_set
-        if tr == 'sf6':
-            ptr_set *= 1000.0 #pmol to fmol
+        if tr == "sf6":
+            ptr_set *= 1000.0  # pmol to fmol
         ptr_ref = np.zeros_like(ptr_set)  # nil for age tracers
         tr_out = tracer_eq(
             ptr_set, sal[valid_indices], temp[valid_indices], tr.upper()
@@ -423,7 +423,7 @@ def trace_age_tracers(
         full_ptr_set = np.full(len(sfs), np.nan)
         full_ptr_set[valid_indices] = ptr_set
         # retain for future non-zero-bg tracers
-        # full_ptr_ref = np.full(len(sfs), np.nan) 
+        # full_ptr_ref = np.full(len(sfs), np.nan)
         # full_ptr_ref[valid_indices] = ptr_ref
         full_tr_out = np.full(len(sfs), np.nan)
         full_tr_out[valid_indices] = tr_out
