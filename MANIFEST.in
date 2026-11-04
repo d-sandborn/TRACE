@@ -1,2 +1,3 @@
 recursive-include tracepy/data *
 recursive-include tracepy/n2o/data *
+recursive-include tracepy/age_tracers/data *
