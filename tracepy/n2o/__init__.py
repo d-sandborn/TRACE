@@ -119,7 +119,7 @@ def trace_n2o(
     atm_co2_trajectory: int = 1,
     atm_n2o_trajectory: int = 1,
     preindustrial_xco2: float = 280.0,
-    preindustrial_xn2o: float = 275.0,
+    preindustrial_xn2o: float = 271.0,
     output_filename: str = None,
     output_format: str = "xarray",
     delta_over_gamma: float = None,
