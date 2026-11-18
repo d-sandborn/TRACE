@@ -37,44 +37,39 @@ which returns an [xarray dataset](https://docs.xarray.dev/en/latest/generated/xa
 Dimensions:           (loc: 2)
 Coordinates:
     year              (loc) <U20 160B '2000-01-01T00:00:00Z' '2200-01-01T00:0...
-    lon               (loc) int64 16B 0 0
-    lat               (loc) int64 16B 0 0
-    depth             (loc) int64 16B 0 0
+    lon               (loc) float64 16B 0.0 0.0
+    lat               (loc) float64 16B 0.0 0.0
+    depth             (loc) float64 16B 0.0 0.0
 Dimensions without coordinates: loc
-Data variables:
-    canth             (loc) float64 16B 47.79 79.87
+Data variables: (12/15)
+    canth             (loc) float64 16B 47.18 78.8
     mean_age          (loc) float64 16B 7.224 7.224
     mode_age          (loc) float64 16B 1.697 1.697
-    dic               (loc) float64 16B 1.994e+03 2.026e+03
-    dic_ref           (loc) float64 16B 1.946e+03 1.946e+03
-    pco2              (loc) float64 16B 325.1 380.7
-    pco2_ref          (loc) float64 16B 260.0 260.0
-    preformed_ta      (loc) float64 16B 2.296e+03 2.296e+03
-    preformed_si      (loc) float64 16B 2.167 2.167
+    dic               (loc) float64 16B 2.004e+03 2.036e+03
+    dic_ref           (loc) float64 16B 1.957e+03 1.957e+03
+    pco2              (loc) float64 16B 342.2 400.7
+               ...
     preformed_p       (loc) float64 16B 0.5108 0.5108
     temperature       (loc) float64 16B 20.0 20.0
     salinity          (loc) float64 16B 35.0 35.0
-    u_canth           (loc) float64 16B 8.645 12.92
-    delta_over_gamma  (loc) float64 16B 1.3 1.3
+    u_canth           (loc) float64 16B 8.57 12.77
+    delta_over_gamma  (loc) float64 16B 1.304 1.304
     scale_factors     (loc) float64 16B 0.05143 0.05143
 Attributes:
     Conventions:        CF-1.10
     description:        Results of Tracer-based Rapid Anthropogenic Carbon Es...
-    history:            TRACE version 1.0.0, ...
-    date_created:       2025-07-16 19:36:23.452010
-    references:         doi.org/10.5194/essd-2024-560
-    co2sys_parameters:  opt_pH_scale: 1, opt_k_carbonic: 10, opt_k_HSO4: 1, o...
+    history:            TRACE for Python, 2026-10-22 15:37:06.714796 Python 3...
+    date_created:       2026-10-22 15:37:06.714810
+    references:         doi.org/10.5194/gmd-19-5961-2026
+    co2sys_parameters:  CO2System settings.\n├─ EQUILIBRIUM CONSTANTS:\n│  ├─...
     trace_parameters:   per_kg_sw_tf: True, canth_diseq: 1.0, eos: seawater, ...
-
 >>> output.canth.data
 
-array([47.78685407, 79.87492991])
+array([47.18402393, 78.80421206])
 
 ```
 
-This result above agrees exactly with TRACEv1, which gives C<sub>anth</sub> = ```[47.7869 79.8749]``` for the same inputs.
-
-
+This result above agrees exactly with TRACEv1, as demonstrated in [`test_pytrace.py`](https://github.com/d-sandborn/TRACE/blob/main/tests/test_pytrace.py).
 
 ## Arguments
 
@@ -98,11 +93,15 @@ Each argument to `trace` can be any object which is readily transformed into an 
 
     Unlike for ESPER or PyESPER, only salinity and temperature are accepted predictors for age and other preformed properties. 
 
-    * `predictor_measurements`: n by y object of y parameter measurements (salinity, temperature). The column order (y columns) is specified by predictor_types. Temperature should be expressed as degrees C and salinity should be specified on the practical scale with the unitless convention. nan inputs are acceptable, but will lead to nan estimates for any equations that depend on that parameter. If temperature is not provided it will be estimated from salinity (not recommended).
+    * `predictor_measurements`: n by y object of y parameter measurements (practical salinity, in-situ temperature). The column order (y columns) is specified by predictor_types. Temperature should be expressed as degrees Celcius and salinity should be specified on the practical scale with the unitless convention. nan inputs are acceptable, but will lead to nan estimates for any equations that depend on that parameter. If temperature is not provided it will be estimated from salinity (not recommended).
+    
+    !!! warning "Temperature/Salinity Scales"
+    
+        Temperature **must** be given as in-situ values on the ITS-90 scale (not potential temperature, not conservative temperature). Salinity **must** be given as practical salinity (not absolute salinity). Users may employ the [GSW](https://teos-10.github.io/GSW-Python/gsw_flat.html) package to make the necessary conversions before entering them into `trace`. 
 
     * `predictor_types` : 1 by y object indicating which parameter is in each column of 'predictor_measurements'. Note that salinity is required for all equations. This applies to all n estimates. Input parameter key:
-        * `1`. Salinity
-        * `2`. Temperature
+        * `1`. Practical Salinity
+        * `2`. In-situ Temperature
 
     ### Atmospheric CO<sub>2</sub>
 
@@ -125,9 +124,9 @@ Each argument to `trace` can be any object which is readily transformed into an 
 
     `trace` returns a CF-compliant `xarray.dataset`, which may be directly saved to a file for ease of data archival and scientific replicability. Options to return and save `pandas` and `numpy` objects are also described below.
 
-    * `output_filename`: Filename for `trace` output to be saved in current working directory. If no filename is given, no file will be saved. Presently .nc, .csv, and .npy files can be saved, depending on the output_format. It is good practice (but not strictly required) to include the filetype (e.g. ".nc") as a part of this argument.  The default is `None`.
+    * `output_filename`: Filename string for `trace` output to be saved in current working directory. If no filename is given, no file will be saved. Presently .nc, .csv, and .npy files can be saved, depending on the output_format. It is good practice (but not strictly required) to include the filetype (e.g. ".nc") as a part of this argument.  The default is `None`.
     
-    * `output_format`: Object format for TRACE output, enabling work with `xarray.dataset`s, `pandas.dataframe`s, or `numpy.array`s. Any of "xarray", "xr", "dataset", "netcdf", "nc", "pandas", "dataframe", "df", "csv", "numpy", "array", "matrix", "ndarray", or "np" are accepted. The default is `"xarray"`.
+    * `output_format`: Object format as a string for TRACE output, enabling work with `xarray.dataset`s, `pandas.dataframe`s, or `numpy.array`s. Any string of "xarray", "xr", "dataset", "netcdf", "nc", "pandas", "dataframe", "df", "csv", "numpy", "array", "matrix", "ndarray", or "np" are accepted. The default is `"xarray"`.
 
     * `verbose_tf` : Flag to control output verbosity. Setting this to `False` will make `trace` stop printing updates to the command line.  Warnings and errors, if any, will be given regardless. The default is `True`.
 

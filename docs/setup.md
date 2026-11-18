@@ -4,7 +4,13 @@ TRACE is presently available for MATLAB (as TRACEv1) and Python (as TRACE-Python
 
 === "Python"
 
-    Download and unzip a release from the [TRACE-Python repository](https://github.com/d-sandborn/pyTRACE/releases).  Ensure pip and python are installed in a virtual environment (we suggest [this method](https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html), but any of the mainline methods should work). TRACE and all of its dependencies can then be installed by navigating to the unzipped directory of TRACE and running the following in a terminal emulator:
+    Ensure pip and python are installed in a virtual environment (we suggest [this method](https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html), but any of the mainline methods should work). Activate your virtual environment. Download and install the most current release then run the following in a terminal emulator:
+
+    ```bash
+	pip install git+https://github.com/d-sandborn/TRACE.git@v<current_release_here>
+	```
+
+	Alternatively, download and unzip a release from the [TRACE-Python repository](https://github.com/d-sandborn/pyTRACE/releases). Navigate to the unzipped directory of TRACE and run the following in a terminal emulator to install an editable copy:
 
 	```bash
 	python -m pip install -e .

@@ -75,7 +75,7 @@ def trace(
 
                              for Python
 
-    Sandborn D. E., Carter, B. R., Barrett, R. 2026.
+    Sandborn D. E., Carter, B. R., Barrett, R., Kelly, C. 2026.
     https://doi.org/10.5194/gmd-19-5961-2026
     MATLAB - github.com/BRCScienceProducts/TRACEv1
     Python - github.com/d-sandborn/TRACE

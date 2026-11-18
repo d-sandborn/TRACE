@@ -9,7 +9,7 @@ This first example asks for estimates at the surface ocean at the equator/prime 
 Results in
 
 ```MATLAB
-Canth = 47.7869 79.8749
+Canth = 47.1840 78.8042
 ```
 
 This second example demonstrates a function call performed without providing temperature information, which is not recommended and should result in a warning
@@ -25,5 +25,5 @@ Warning: TRACE was called either without providing temperature or without specif
 
     In TRACEv1 (line 325)
 
-Canth = 56.0591 66.4567
+Canth = 55.3202 65.5561
 ```
