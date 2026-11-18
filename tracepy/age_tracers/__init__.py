@@ -128,14 +128,14 @@ def trace_age_tracers(
 
                              for Python
 
-    Sandborn D. E., Carter, B. R., Barrett, R. 2026.
+    Sandborn D. E., Carter, B. R., Barrett, R., Kelly, C. 2026.
     https://doi.org/10.5194/gmd-19-5961-2026
     MATLAB - github.com/BRCScienceProducts/TRACEv1
     Python - github.com/d-sandborn/TRACE
 
-    Generates etimates of ocean anthropogenic carbon and transient
-    nitrous oxide content from user-supplied inputs of coordinates
-    (lat, lon, depth), salinity, (optionally) temperature, and year.
+    Generates etimates of ocean transient tracer content from
+    user-supplied inputs of coordinates (lat, lon, depth), salinity,
+    (optionally) temperature, and year.
 
     Information is also needed about the historical and/or future atm
     trajectory.  This information can be provided or default values can
@@ -332,9 +332,7 @@ def trace_age_tracers(
 
     sfs = output["scale_factors"].values.astype(float)
     dates = np.asarray(dates, dtype=float).reshape(-1)
-    delta_over_gamma = np.nanmedian(
-        output["delta_over_gamma"].values.astype(float)
-    )
+    delta_over_gamma = np.nanmedian(output["delta_over_gamma"].values.astype(float))
     ventilation = inverse_gaussian_wrapper(
         x=np.arange(0.01, 5.01, 0.01), delta_over_gamma=delta_over_gamma
     )
@@ -398,22 +396,18 @@ def trace_age_tracers(
     vpfac = 1 - vpwp * np.exp(-0.000544 * sal)
 
     for tr in which_tracers:
-
         tr_rec = np.loadtxt(joinpath(DATADIR, f"{tr.upper()}Trajectories.txt"))
         tr_rec = np.vstack([tr_rec[0, :], tr_rec])
         tr_rec[0, 0] = -1e10
 
         tr_set = interp1d(tr_rec[:, 0], tr_rec[:, atm_tracer_trajectory])
         tr_set = tr_set(
-            dates[valid_indices, None]
-            - sfs[valid_indices, None] * np.arange(1, 501)
+            dates[valid_indices, None] - sfs[valid_indices, None] * np.arange(1, 501)
         ).dot(ventilation.T)
 
         ptr_set = vpfac[valid_indices] * tr_set
         ptr_ref = np.zeros_like(ptr_set)  # nil for age tracers
-        tr_out = tracer_eq(
-            ptr_set, sal[valid_indices], temp[valid_indices], tr.upper()
-        )
+        tr_out = tracer_eq(ptr_set, sal[valid_indices], temp[valid_indices], tr.upper())
         if tr == "sf6":
             tr_out *= 1000.0  # pmol to fmol
         tr_ref = np.zeros_like(tr_out)

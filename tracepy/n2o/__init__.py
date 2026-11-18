@@ -119,7 +119,7 @@ def trace_n2o(
     atm_co2_trajectory: int = 1,
     atm_n2o_trajectory: int = 1,
     preindustrial_xco2: float = 280.0,
-    preindustrial_xn2o: float = 271.0,
+    preindustrial_xn2o: float = 275.0,
     output_filename: str = None,
     output_format: str = "xarray",
     delta_over_gamma: float = None,
@@ -151,7 +151,7 @@ def trace_n2o(
 
                              for Python
 
-    Sandborn D. E., Carter, B. R., Barrett, R. 2026.
+    Sandborn D. E., Carter, B. R., Barrett, R., Kelly, C. 2026.
     https://doi.org/10.5194/gmd-19-5961-2026
     MATLAB - github.com/BRCScienceProducts/TRACEv1
     Python - github.com/d-sandborn/TRACE
